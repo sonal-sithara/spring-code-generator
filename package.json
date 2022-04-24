@@ -9,10 +9,15 @@
     "vscode": "^1.66.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Snippets"
   ],
   "activationEvents": [
-    "onCommand:spring-code-generator.createController"
+    "onCommand:spring-code-generator.createController",
+    "onCommand:spring-code-generator.createControllerWithCrud",
+    "onCommand:spring-code-generator.createService",
+    "onCommand:spring-code-generator.createEntity",
+    "onCommand:spring-code-generator.createDto"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -20,6 +25,22 @@
       {
         "command": "spring-code-generator.createController",
         "title": "Create Controller"
+      },
+      {
+        "command": "spring-code-generator.createControllerWithCrud",
+        "title": "Create Controller With Crud"
+      },
+      {
+        "command": "spring-code-generator.createService",
+        "title": "Create Service"
+      },
+      {
+        "command": "spring-code-generator.createEntity",
+        "title": "Create Entity"
+      },
+      {
+        "command": "spring-code-generator.createDto",
+        "title": "Create Dto"
       }
     ],
     "menus": {
@@ -30,7 +51,24 @@
       ],
       "Spring Code Generator": [
         {
-          "command": "spring-code-generator.createController"
+          "command": "spring-code-generator.createController",
+          "group": "controller"
+        },
+        {
+          "command": "spring-code-generator.createControllerWithCrud",
+          "group": "controller"
+        },
+        {
+          "command": "spring-code-generator.createService",
+          "group": "service"
+        },
+        {
+          "command": "spring-code-generator.createEntity",
+          "group": "entity"
+        },
+        {
+          "command": "spring-code-generator.createDto",
+          "group": "dto"
         }
       ]
     },
@@ -38,6 +76,12 @@
       {
         "label": "Spring Code Generator",
         "id": "Spring Code Generator"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "java",
+        "path": "./out/snippets/snippets.code-snippets"
       }
     ]
   },
