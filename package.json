@@ -5,6 +5,7 @@
   "icon": "image/logo.png",
   "publisher": "SonalSithara",
   "version": "0.0.1",
+  "repository": "https://github.com/Sonal23520/spring-code-generator",
   "engines": {
     "vscode": "^1.66.0"
   },
