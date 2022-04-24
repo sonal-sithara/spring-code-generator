@@ -4,7 +4,7 @@ Generate Necessary File In Spring **(Controller, Service, Entity, Dto)**
 
 [![Version](https://vsmarketplacebadge.apphb.com/version/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Downloads](https://vsmarketplacebadge.apphb.com/downloads/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Ratings](https://vsmarketplacebadge.apphb.com/rating-short/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) ![](https://img.shields.io/github/stars/Sonal23520/spring-snippets?style=social&label=Star&maxAge=2592000)
 
-##Provided Functions
+## Provided Functions
 
 | Function                    | Description                                   |
 | --------------------------- | --------------------------------------------- |
@@ -14,13 +14,13 @@ Generate Necessary File In Spring **(Controller, Service, Entity, Dto)**
 | Create Entity               | Create entity file with primary key           |
 | Create Dto                  | Create Dto file with boilerplate class        |
 
-##Screenshot
+## Screenshot
 
 ![](https://i.postimg.cc/Qx35dM7d/Screenshot-20220424-221154.png)
 
 ##### Also you can use snippets prefixes to generate endpoints
 
-##Trigger Content
+## Trigger Content
 
 | perfix    | desc                     |
 | --------- | ------------------------ |
