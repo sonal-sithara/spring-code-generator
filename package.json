@@ -108,6 +108,6 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.2"
   }
 }
