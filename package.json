@@ -1,11 +1,11 @@
 {
   "name": "spring-code-generator",
   "displayName": "Spring Code Generator",
-  "description": "Spring Code Generator",
+  "description": "A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring (Controller, Service, Entity, Dto) or generate crud operations with controller or just crud operations in your spring application.",
   "icon": "image/logo.png",
   "publisher": "SonalSithara",
-  "version": "0.0.1",
-  "repository": "https://github.com/Sonal23520/spring-code-generator",
+  "version": "1.0.0",
+  "repository": "https://github.com/sonal-sithara/spring-code-generator",
   "engines": {
     "vscode": "^1.66.0"
   },
@@ -42,6 +42,10 @@
       {
         "command": "spring-code-generator.createDto",
         "title": "Create Dto"
+      },
+      {
+        "command": "spring-code-generator.createRepository",
+        "title": "Create Repository"
       }
     ],
     "menus": {
@@ -70,6 +74,10 @@
         {
           "command": "spring-code-generator.createDto",
           "group": "dto"
+        },
+        {
+          "command": "spring-code-generator.createRepository",
+          "group": "repository"
         }
       ]
     },
