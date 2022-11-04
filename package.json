@@ -18,7 +18,9 @@
     "onCommand:spring-code-generator.createControllerWithCrud",
     "onCommand:spring-code-generator.createService",
     "onCommand:spring-code-generator.createEntity",
-    "onCommand:spring-code-generator.createDto"
+    "onCommand:spring-code-generator.createDto",
+    "onCommand:spring-code-generator.createRepository"
+    
   ],
   "main": "./out/extension.js",
   "contributes": {
