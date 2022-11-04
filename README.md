@@ -1,8 +1,8 @@
 # Spring Boot Code Generator
 
-A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring **(Controller, Service, Entity, Dto)** or generate crud operations with controller or just crud operations in your spring application. 
+A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring **(Controller, Service, Entity, Dto, Repository)** or generate crud operations with controller or just crud operations in your spring application. 
 
-[![Version](https://vsmarketplacebadge.apphb.com/version/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Downloads](https://vsmarketplacebadge.apphb.com/downloads/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Ratings](https://vsmarketplacebadge.apphb.com/rating-short/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) ![](https://img.shields.io/github/stars/Sonal23520/spring-snippets?style=social&label=Star&maxAge=2592000)
+[![Version](https://vsmarketplacebadge.apphb.com/version/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Downloads](https://vsmarketplacebadge.apphb.com/downloads/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Ratings](https://vsmarketplacebadge.apphb.com/rating-short/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) ![](https://img.shields.io/github/stars/sonal-sithara/spring-snippets?style=social&label=Star&maxAge=2592000)
 
 ## Provided Functions
 
@@ -13,10 +13,11 @@ A extension for Visual Studio Code based on java spring framework.This extension
 | Create Service              | Create service file with boilerplate class    |
 | Create Entity               | Create entity file with primary key           |
 | Create Dto                  | Create Dto file with boilerplate class        |
+| Create Repository           | Create repository file with boilerplate class |
 
 ## Screenshot
 
-![](https://i.postimg.cc/Qx35dM7d/Screenshot-20220424-221154.png)
+![](https://i.ibb.co/CBW1wr6/menu.png)
 
 ##### Also you can use snippets prefixes to generate endpoints
 
