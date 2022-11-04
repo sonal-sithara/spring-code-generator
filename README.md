@@ -1,6 +1,6 @@
 # Spring Boot Code Generator
 
-Generate Necessary File In Spring **(Controller, Service, Entity, Dto)**
+A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring **(Controller, Service, Entity, Dto)** or generate crud operations with controller or just crud operations in your spring application. 
 
 [![Version](https://vsmarketplacebadge.apphb.com/version/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Downloads](https://vsmarketplacebadge.apphb.com/downloads/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Ratings](https://vsmarketplacebadge.apphb.com/rating-short/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) ![](https://img.shields.io/github/stars/Sonal23520/spring-snippets?style=social&label=Star&maxAge=2592000)
 
