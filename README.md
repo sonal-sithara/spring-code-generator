@@ -2,7 +2,7 @@
 
 A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring **(Controller, Service, Entity, Dto, Repository)** or generate crud operations with controller or just crud operations in your spring application. 
 
-[![Version](https://vsmarketplacebadges.dev/version/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Downloads](https://vsmarketplacebadges.dev/downloads/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Ratings](https://vsmarketplacebadges.dev/rating-short/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) ![](https://img.shields.io/github/stars/sonal-sithara/spring-snippets?style=social&label=Star&maxAge=2592000)
+[![Version](https://vsmarketplacebadge.apphb.com/version/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Downloads](https://vsmarketplacebadge.apphb.com/downloads/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) [![Ratings](https://vsmarketplacebadge.apphb.com/rating-short/SonalSithara.spring-code-generator.svg)](https://marketplace.visualstudio.com/items?itemName=SonalSithara.spring-code-generator) ![](https://img.shields.io/github/stars/sonal-sithara/spring-snippets?style=social&label=Star&maxAge=2592000)
 
 ## Provided Functions
 
