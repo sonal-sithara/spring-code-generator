@@ -4,7 +4,7 @@
   "description": "A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring (Controller, Service, Entity, Dto) or generate crud operations with controller or just crud operations in your spring application.",
   "icon": "image/logo.png",
   "publisher": "SonalSithara",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": "https://github.com/sonal-sithara/spring-code-generator",
   "engines": {
     "vscode": "^1.66.0"
