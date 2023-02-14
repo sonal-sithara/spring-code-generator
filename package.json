@@ -19,7 +19,9 @@
     "onCommand:spring-code-generator.createService",
     "onCommand:spring-code-generator.createEntity",
     "onCommand:spring-code-generator.createDto",
-    "onCommand:spring-code-generator.createRepository"
+    "onCommand:spring-code-generator.createRepository",
+    "onCommand:spring-code-generator.createEntityWithLombok",
+    "onCommand:spring-code-generator.createDtoWithLombok"
     
   ],
   "main": "./out/extension.js",
@@ -27,27 +29,43 @@
     "commands": [
       {
         "command": "spring-code-generator.createController",
-        "title": "Create Controller"
+        "title": "Create Controller",
+        "category": "Spring Code Generator"
       },
       {
         "command": "spring-code-generator.createControllerWithCrud",
-        "title": "Create Controller With Crud"
+        "title": "Create Controller With Crud",
+        "category": "Spring Code Generator"
       },
       {
         "command": "spring-code-generator.createService",
-        "title": "Create Service"
+        "title": "Create Service",
+        "category": "Spring Code Generator"
       },
       {
         "command": "spring-code-generator.createEntity",
-        "title": "Create Entity"
+        "title": "Create Entity",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createEntityWithLombok",
+        "title": "Create Entity With Lombok",
+        "category": "Spring Code Generator"
       },
       {
         "command": "spring-code-generator.createDto",
-        "title": "Create Dto"
+        "title": "Create Dto",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createDtoWithLombok",
+        "title": "Create Dto With Lombok",
+        "category": "Spring Code Generator"
       },
       {
         "command": "spring-code-generator.createRepository",
-        "title": "Create Repository"
+        "title": "Create Repository",
+        "category": "Spring Code Generator"
       }
     ],
     "menus": {
@@ -80,6 +98,14 @@
         {
           "command": "spring-code-generator.createRepository",
           "group": "repository"
+        },
+        {
+          "command": "spring-code-generator.createDtoWithLombok",
+          "group": "dto"
+        },
+        {
+          "command": "spring-code-generator.createEntityWithLombok",
+          "group": "entity"
         }
       ]
     },

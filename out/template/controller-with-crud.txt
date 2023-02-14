@@ -3,10 +3,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/temp-mapping")
 public class TempClassName {
 
@@ -51,7 +48,7 @@ public class TempClassName {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> destroy(@PathVariable Integer id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             //TODO Implement Your Logic To Destroy Data And Return Result Through ResponseEntity
             return new ResponseEntity<>("Destroy Result", HttpStatus.OK);

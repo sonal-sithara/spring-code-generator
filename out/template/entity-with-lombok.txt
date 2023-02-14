@@ -1,6 +1,12 @@
 import javax.persistence.*;
 import java.io.Serializable;
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "temp-mapping")
 public class TempClassName implements Serializable {

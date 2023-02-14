@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
+
 export const createFile = async (folder: any, type: string) => {
   let uri = folder;
   if (!folder) {
@@ -9,25 +10,27 @@ export const createFile = async (folder: any, type: string) => {
 
     uri = await vscode.Uri.file(folder);
   }
-  vscode.window.showInputBox({ placeHolder: "Enter name" }).then(async (val) => {
-    if (undefined !== val && null !== val.trim() && "" !== val.trim()) {
-      if (type === "repository") {
-        let repositoryValues = await getRepositoryValues();
-        console.log(repositoryValues);
-        createTemplate(
-          val,
-          type,
-          uri,
-          repositoryValues.entityName,
-          repositoryValues.dataType
-        );
+  vscode.window
+    .showInputBox({ placeHolder: "Enter name" })
+    .then(async (val) => {
+      if (undefined !== val && null !== val.trim() && "" !== val.trim()) {
+        if (type === "repository") {
+          let repositoryValues = await getRepositoryValues();
+          console.log(repositoryValues);
+          createTemplate(
+            val.trim(),
+            type,
+            uri,
+            repositoryValues.entityName,
+            repositoryValues.dataType
+          );
+        } else {
+          createTemplate(val.trim(), type, uri, "", "");
+        }
       } else {
-        createTemplate(val, type, uri, "", "");
+        vscode.window.showWarningMessage("Please enter valid name");
       }
-    } else {
-      vscode.window.showWarningMessage("Please enter valid name");
-    }
-  });
+    });
 };
 
 const createTemplate = (
@@ -44,7 +47,7 @@ const createTemplate = (
     .toString();
 
   const content = templateContent
-    .replace(`temp-mapping`, `${val}`.toLowerCase())
+    .replaceAll(`temp-mapping`, `${val}`.toLowerCase())
     .replace("TempClassName", `${val}`)
     .replace("entityName", entityName)
     .replace("dataType", dataType);
@@ -62,7 +65,7 @@ const createTemplate = (
 
 const getRepositoryValues = async () => {
   let values = { entityName: "", dataType: "" };
- await vscode.window
+  await vscode.window
     .showInputBox({ placeHolder: "Enter Entity Name" })
     .then(async (entityName) => {
       if (
@@ -70,7 +73,7 @@ const getRepositoryValues = async () => {
         null !== entityName.trim() &&
         "" !== entityName.trim()
       ) {
-       await vscode.window
+        await vscode.window
           .showInputBox({ placeHolder: "Enter ID Data Type [ex -> Integer]" })
           .then((dataType) => {
             if (

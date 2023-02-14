@@ -10,15 +10,17 @@ const createFile = async (folder, type) => {
         folder = await vscode.env.clipboard.readText();
         uri = await vscode.Uri.file(folder);
     }
-    vscode.window.showInputBox({ placeHolder: "Enter name" }).then(async (val) => {
+    vscode.window
+        .showInputBox({ placeHolder: "Enter name" })
+        .then(async (val) => {
         if (undefined !== val && null !== val.trim() && "" !== val.trim()) {
             if (type === "repository") {
                 let repositoryValues = await getRepositoryValues();
                 console.log(repositoryValues);
-                createTemplate(val, type, uri, repositoryValues.entityName, repositoryValues.dataType);
+                createTemplate(val.trim(), type, uri, repositoryValues.entityName, repositoryValues.dataType);
             }
             else {
-                createTemplate(val, type, uri, "", "");
+                createTemplate(val.trim(), type, uri, "", "");
             }
         }
         else {
@@ -33,7 +35,7 @@ const createTemplate = (val, type, uri, entityName, dataType) => {
         .readFileSync(__dirname + `/template/${type}.txt`)
         .toString();
     const content = templateContent
-        .replace(`temp-mapping`, `${val}`.toLowerCase())
+        .replaceAll(`temp-mapping`, `${val}`.toLowerCase())
         .replace("TempClassName", `${val}`)
         .replace("entityName", entityName)
         .replace("dataType", dataType);

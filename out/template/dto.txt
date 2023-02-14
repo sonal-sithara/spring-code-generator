@@ -1,5 +1,4 @@
-import java.io.Serializable;
 
-public class TempClassName implements Serializable {
+public class TempClassName {
 
 }

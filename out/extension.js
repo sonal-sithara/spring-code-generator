@@ -17,8 +17,14 @@ function activate(context) {
     let createEntity = vscode.commands.registerCommand("spring-code-generator.createEntity", async (folder) => {
         await (0, main_1.createFile)(folder, "entity");
     });
+    let createEntityWithLombok = vscode.commands.registerCommand("spring-code-generator.createEntityWithLombok", async (folder) => {
+        await (0, main_1.createFile)(folder, "entity-with-lombok");
+    });
     let createDto = vscode.commands.registerCommand("spring-code-generator.createDto", async (folder) => {
         await (0, main_1.createFile)(folder, "dto");
+    });
+    let createDtoWithLombok = vscode.commands.registerCommand("spring-code-generator.createDtoWithLombok", async (folder) => {
+        await (0, main_1.createFile)(folder, "dto-with-lombok");
     });
     let createRepository = vscode.commands.registerCommand("spring-code-generator.createRepository", async (folder) => {
         await (0, main_1.createFile)(folder, "repository");
@@ -27,7 +33,9 @@ function activate(context) {
     context.subscriptions.push(createControllerWithCrudDisposable);
     context.subscriptions.push(createService);
     context.subscriptions.push(createEntity);
+    context.subscriptions.push(createEntityWithLombok);
     context.subscriptions.push(createDto);
+    context.subscriptions.push(createDtoWithLombok);
     context.subscriptions.push(createRepository);
 }
 exports.activate = activate;
