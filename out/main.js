@@ -31,10 +31,19 @@ const createFile = async (folder, type) => {
 exports.createFile = createFile;
 const createTemplate = (val, type, uri, entityName, dataType) => {
     const wsedit = new vscode.WorkspaceEdit();
+    let packageName = "";
+    let array = uri.path.split("java/");
+    if (1 < array.length) {
+        packageName = array[1].replaceAll("/", ".");
+    }
     let templateContent = fs
         .readFileSync(__dirname + `/template/${type}.txt`)
         .toString();
+    if ("" === packageName) {
+        templateContent = templateContent.replace("package package-des;", packageName);
+    }
     const content = templateContent
+        .replace("package-des", packageName)
         .replaceAll(`temp-mapping`, `${val}`.toLowerCase())
         .replace("TempClassName", `${val}`)
         .replace("entityName", entityName)

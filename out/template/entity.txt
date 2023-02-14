@@ -1,3 +1,5 @@
+package package-des;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
