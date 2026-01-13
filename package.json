@@ -6,6 +6,7 @@
   "publisher": "SonalSithara",
   "version": "1.1.0",
   "repository": "https://github.com/sonal-sithara/spring-code-generator",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.66.0"
   },
