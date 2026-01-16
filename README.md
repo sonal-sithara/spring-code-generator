@@ -144,48 +144,49 @@ Quickly generate Spring endpoint mappings using snippets:
 
 ### Available Commands
 
-| Command                              | Description                                                                    |
-| ------------------------------------ | ------------------------------------------------------------------------------ |
-| **Create Batch Module** ⭐            | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
-| **Create Project Structure** ⭐       | Auto-create recommended folder structure for new Spring Boot projects         |
-| Create Controller                    | Generate basic REST controller                                                |
-| Create Controller With CRUD          | Generate controller with CRUD endpoints                                       |
-| Create Entity                        | Generate JPA entity                                                           |
-| Create Entity With Lombok            | Generate entity with Lombok annotations                                       |
-| Create DTO                           | Generate data transfer object                                                 |
-| Create DTO With Lombok               | Generate DTO with Lombok annotations                                          |
-| Create Repository                    | Generate Spring Data JPA repository (prompts for entity name)                 |
-| Create Service Implementation        | Generate service class (prompts for interface name)                           |
-| Create Exception                     | Generate custom exception class                                               |
-| Create Global Exception Handler      | Generate @RestControllerAdvice with exception handlers                        |
-| Create Security Configuration        | Generate Spring Security configuration class                                  |
-| Create Test Class                    | Generate JUnit 5 test class with Mockito                                     |
-| Create Mapper                        | Generate entity-to-DTO mapper interface                                       |
-| Create Converter                     | Generate entity-to-DTO converter component                                    |
-| Create Application Properties        | Generate application.properties file                                          |
-| Create Application YML               | Generate application.yml file                                                 |
-| Create Request DTO                   | Generate HTTP request DTO                                                     |
-| Create Response DTO                  | Generate HTTP response DTO                                                    |
+| Command                         | Description                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| **Create Batch Module** ⭐      | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
+| **Create Project Structure** ⭐ | Auto-create recommended folder structure for new Spring Boot projects          |
+| Create Controller               | Generate basic REST controller                                                 |
+| Create Controller With CRUD     | Generate controller with CRUD endpoints                                        |
+| Create Entity                   | Generate JPA entity                                                            |
+| Create Entity With Lombok       | Generate entity with Lombok annotations                                        |
+| Create DTO                      | Generate data transfer object                                                  |
+| Create DTO With Lombok          | Generate DTO with Lombok annotations                                           |
+| Create Repository               | Generate Spring Data JPA repository (prompts for entity name)                  |
+| Create Service Implementation   | Generate service class (prompts for interface name)                            |
+| Create Exception                | Generate custom exception class                                                |
+| Create Global Exception Handler | Generate @RestControllerAdvice with exception handlers                         |
+| Create Security Configuration   | Generate Spring Security configuration class                                   |
+| Create Test Class               | Generate JUnit 5 test class with Mockito                                       |
+| Create Mapper                   | Generate entity-to-DTO mapper interface                                        |
+| Create Converter                | Generate entity-to-DTO converter component                                     |
+| Create Application Properties   | Generate application.properties file                                           |
+| Create Application YML          | Generate application.yml file                                                  |
+| Create Request DTO              | Generate HTTP request DTO                                                      |
+| Create Response DTO             | Generate HTTP response DTO                                                     |
 
 ### Project Structure Configuration
 
 The Project Structure Generator creates the following folders automatically:
 
-| Folder | Purpose |
-| --- | --- |
-| `controller/` | REST endpoints and request handlers |
-| `service/` | Business logic layer |
-| `repository/` | Data access layer (JPA repositories) |
-| `entity/` | JPA entity classes |
-| `dto/` | Data transfer objects |
-| `mapper/` | Entity-to-DTO converters |
-| `exception/` | Custom exceptions and global exception handlers |
-| `config/` | Spring configuration classes (Security, etc.) |
-| `util/` | Utility and helper functions |
-| `constants/` | Application-wide constants |
-| `test/` | Unit tests (optional) |
+| Folder        | Purpose                                         |
+| ------------- | ----------------------------------------------- |
+| `controller/` | REST endpoints and request handlers             |
+| `service/`    | Business logic layer                            |
+| `repository/` | Data access layer (JPA repositories)            |
+| `entity/`     | JPA entity classes                              |
+| `dto/`        | Data transfer objects                           |
+| `mapper/`     | Entity-to-DTO converters                        |
+| `exception/`  | Custom exceptions and global exception handlers |
+| `config/`     | Spring configuration classes (Security, etc.)   |
+| `util/`       | Utility and helper functions                    |
+| `constants/`  | Application-wide constants                      |
+| `test/`       | Unit tests (optional)                           |
 
 It also generates optional files:
+
 - **README.md** - Project documentation with setup instructions
 - **.env.example** - Environment variables template for configuration
 
