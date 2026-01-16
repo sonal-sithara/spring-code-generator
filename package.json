@@ -33,7 +33,8 @@
     "onCommand:spring-code-generator.createServiceImpl",
     "onCommand:spring-code-generator.createRequestDto",
     "onCommand:spring-code-generator.createResponseDto",
-    "onCommand:spring-code-generator.createBatchModule"
+    "onCommand:spring-code-generator.createBatchModule",
+    "onCommand:spring-code-generator.createProjectStructure"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -132,6 +133,11 @@
         "command": "spring-code-generator.createBatchModule",
         "title": "Create Batch Module (Complete Module)",
         "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createProjectStructure",
+        "title": "Create Project Structure",
+        "category": "Spring Code Generator"
       }
     ],
     "menus": {
@@ -216,6 +222,10 @@
         {
           "command": "spring-code-generator.createBatchModule",
           "group": "batch"
+        },
+        {
+          "command": "spring-code-generator.createProjectStructure",
+          "group": "structure"
         }
       ]
     },

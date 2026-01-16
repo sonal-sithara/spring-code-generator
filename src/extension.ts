@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { createFile, createBatchModule } from "./main";
+import { createFile, createBatchModule, createProjectStructure } from "./main";
 
 // Command definitions
 const COMMANDS = {
@@ -24,6 +24,7 @@ const COMMANDS = {
   CREATE_REQUEST_DTO: "spring-code-generator.createRequestDto",
   CREATE_RESPONSE_DTO: "spring-code-generator.createResponseDto",
   CREATE_BATCH_MODULE: "spring-code-generator.createBatchModule",
+  CREATE_PROJECT_STRUCTURE: "spring-code-generator.createProjectStructure",
 } as const;
 
 // Template type mappings
@@ -127,6 +128,13 @@ function registerCommands(): vscode.Disposable[] {
   disposables.push(
     vscode.commands.registerCommand(COMMANDS.CREATE_BATCH_MODULE, async (folder) => {
       await createBatchModule(folder);
+    })
+  );
+
+  // Register project structure command
+  disposables.push(
+    vscode.commands.registerCommand(COMMANDS.CREATE_PROJECT_STRUCTURE, async (folder) => {
+      await createProjectStructure(folder);
     })
   );
 
