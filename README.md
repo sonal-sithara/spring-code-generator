@@ -161,7 +161,49 @@ Generate ready-to-use Spring Boot configuration classes quickly!
 - Learning Spring Boot configuration best practices
 - Copy-paste ready code with helpful comments
 
-### Core Components
+### 📂 File Organization Helper (NEW!)
+
+Automatically organize Spring Boot project files into proper folder structure based on naming conventions!
+
+**How it works:**
+
+1. **Spring Code Generator → Organize Project Files** - Auto-organize all files
+
+   - Scans your src/main/java directory
+   - Detects file types from naming conventions
+   - Moves files to appropriate folders
+   - Creates folders if needed
+
+2. **Spring Code Generator → Analyze Project Structure** - Analyze current organization
+   - Reports file distribution across folders
+   - Identifies unorganized files
+   - Provides recommendations
+   - Shows summary in output panel
+
+**File Detection Rules:**
+
+| Pattern                                        | Destination   |
+| ---------------------------------------------- | ------------- |
+| `*Controller.java`                             | `controller/` |
+| `*Service*.java`, `*ServiceImpl.java`          | `service/`    |
+| `*Repository.java`                             | `repository/` |
+| `*Entity.java`, `*Model.java`                  | `entity/`     |
+| `*DTO.java`, `*Request.java`, `*Response.java` | `dto/`        |
+| `*Mapper.java`                                 | `mapper/`     |
+| `*Converter.java`                              | `mapper/`     |
+| `*Exception.java`                              | `exception/`  |
+| `*Handler.java`                                | `exception/`  |
+| `*Config.java`                                 | `config/`     |
+| `*Util.java`                                   | `util/`       |
+| `*Constant.java`                               | `constants/`  |
+| `*Test.java`                                   | `test/`       |
+
+**Perfect for:**
+
+- Organizing existing projects with scattered files
+- Maintaining consistent folder structure
+- Quick cleanup after adding new features
+- Understanding project organization
 
 - **Controller** - REST controller with request mapping
 - **Controller with CRUD** - Controller with complete CRUD operations
@@ -253,6 +295,8 @@ Quickly generate Spring endpoint mappings using snippets:
 | **Create Project Structure** ⭐       | Auto-create recommended folder structure for new Spring Boot projects          |
 | **Create JPA Relationship** ⭐        | Generate JPA relationship annotations with cascading and bidirectional support |
 | **Create Configuration Templates** ⭐ | Generate configuration classes (Database, Security, JWT, CORS)                 |
+| **Organize Project Files** ⭐         | Auto-organize files into proper folder structure                               |
+| **Analyze Project Structure** ⭐      | Analyze and report file distribution across folders                            |
 | Create Controller                     | Generate basic REST controller                                                 |
 | Create Controller With CRUD           | Generate controller with CRUD endpoints                                        |
 | Create Entity                         | Generate JPA entity                                                            |

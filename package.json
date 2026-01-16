@@ -36,7 +36,9 @@
     "onCommand:spring-code-generator.createBatchModule",
     "onCommand:spring-code-generator.createProjectStructure",
     "onCommand:spring-code-generator.createRelationship",
-    "onCommand:spring-code-generator.createConfiguration"
+    "onCommand:spring-code-generator.createConfiguration",
+    "onCommand:spring-code-generator.organizeProjectFiles",
+    "onCommand:spring-code-generator.analyzeProjectStructure"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -150,6 +152,16 @@
         "command": "spring-code-generator.createConfiguration",
         "title": "Create Configuration Templates",
         "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.organizeProjectFiles",
+        "title": "Organize Project Files",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.analyzeProjectStructure",
+        "title": "Analyze Project Structure",
+        "category": "Spring Code Generator"
       }
     ],
     "menus": {
@@ -246,6 +258,14 @@
         {
           "command": "spring-code-generator.createConfiguration",
           "group": "config"
+        },
+        {
+          "command": "spring-code-generator.organizeProjectFiles",
+          "group": "organize"
+        },
+        {
+          "command": "spring-code-generator.analyzeProjectStructure",
+          "group": "organize"
         }
       ]
     },

@@ -53,3 +53,7 @@ export interface RelationshipConfig {
 export interface ConfigurationConfig {
   type: "Database" | "Security" | "JWT" | "CORS";
 }
+
+export interface FileOrganizationConfig {
+  operation: "organize" | "analyze";
+}

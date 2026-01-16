@@ -7,6 +7,7 @@ const moduleGenerator_1 = require("./generators/moduleGenerator");
 const structureGenerator_1 = require("./generators/structureGenerator");
 const relationshipGenerator_1 = require("./generators/relationshipGenerator");
 const configurationGenerator_1 = require("./generators/configurationGenerator");
+const fileOrganizationGenerator_1 = require("./generators/fileOrganizationGenerator");
 // Command definitions
 const COMMANDS = {
     CREATE_CONTROLLER: "spring-code-generator.createController",
@@ -31,6 +32,8 @@ const COMMANDS = {
     CREATE_PROJECT_STRUCTURE: "spring-code-generator.createProjectStructure",
     CREATE_RELATIONSHIP: "spring-code-generator.createRelationship",
     CREATE_CONFIGURATION: "spring-code-generator.createConfiguration",
+    ORGANIZE_PROJECT_FILES: "spring-code-generator.organizeProjectFiles",
+    ANALYZE_PROJECT_STRUCTURE: "spring-code-generator.analyzeProjectStructure",
 };
 // Template type mappings
 const TEMPLATE_TYPES = {
@@ -137,6 +140,14 @@ function registerCommands() {
     // Register configuration command
     disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_CONFIGURATION, async (folder) => {
         await (0, configurationGenerator_1.createConfiguration)();
+    }));
+    // Register organize project files command
+    disposables.push(vscode.commands.registerCommand(COMMANDS.ORGANIZE_PROJECT_FILES, async () => {
+        await (0, fileOrganizationGenerator_1.organizeProjectFiles)();
+    }));
+    // Register analyze project structure command
+    disposables.push(vscode.commands.registerCommand(COMMANDS.ANALYZE_PROJECT_STRUCTURE, async () => {
+        await (0, fileOrganizationGenerator_1.analyzeProjectStructure)();
     }));
     return disposables;
 }

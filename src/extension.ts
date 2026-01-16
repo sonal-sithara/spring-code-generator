@@ -4,6 +4,7 @@ import { createBatchModule } from "./generators/moduleGenerator";
 import { createProjectStructure } from "./generators/structureGenerator";
 import { createRelationship } from "./generators/relationshipGenerator";
 import { createConfiguration } from "./generators/configurationGenerator";
+import { organizeProjectFiles, analyzeProjectStructure } from "./generators/fileOrganizationGenerator";
 
 // Command definitions
 const COMMANDS = {
@@ -31,6 +32,8 @@ const COMMANDS = {
   CREATE_PROJECT_STRUCTURE: "spring-code-generator.createProjectStructure",
   CREATE_RELATIONSHIP: "spring-code-generator.createRelationship",
   CREATE_CONFIGURATION: "spring-code-generator.createConfiguration",
+  ORGANIZE_PROJECT_FILES: "spring-code-generator.organizeProjectFiles",
+  ANALYZE_PROJECT_STRUCTURE: "spring-code-generator.analyzeProjectStructure",
 } as const;
 
 // Template type mappings
@@ -155,6 +158,20 @@ function registerCommands(): vscode.Disposable[] {
   disposables.push(
     vscode.commands.registerCommand(COMMANDS.CREATE_CONFIGURATION, async (folder) => {
       await createConfiguration();
+    })
+  );
+
+  // Register organize project files command
+  disposables.push(
+    vscode.commands.registerCommand(COMMANDS.ORGANIZE_PROJECT_FILES, async () => {
+      await organizeProjectFiles();
+    })
+  );
+
+  // Register analyze project structure command
+  disposables.push(
+    vscode.commands.registerCommand(COMMANDS.ANALYZE_PROJECT_STRUCTURE, async () => {
+      await analyzeProjectStructure();
     })
   );
 
