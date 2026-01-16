@@ -123,6 +123,7 @@ Generate ready-to-use Spring Boot configuration classes quickly!
 **Generated configurations include:**
 
 - **Database Configuration**
+
   - JPA repository scanning
   - Entity scanning
   - Transaction management
@@ -130,6 +131,7 @@ Generate ready-to-use Spring Boot configuration classes quickly!
   - Helpful comments for application.yml properties
 
 - **Security Configuration**
+
   - Password encoder (BCryptPasswordEncoder)
   - Authentication manager
   - Security filter chain setup
@@ -137,6 +139,7 @@ Generate ready-to-use Spring Boot configuration classes quickly!
   - Login/logout configuration
 
 - **JWT Configuration**
+
   - Token generation from username
   - Token generation with custom claims
   - Username extraction from token
@@ -152,6 +155,7 @@ Generate ready-to-use Spring Boot configuration classes quickly!
   - Common preset origins (localhost:3000, 4200, 8080)
 
 **Perfect for:**
+
 - Quick project setup
 - Consistent configuration across projects
 - Learning Spring Boot configuration best practices
@@ -243,30 +247,30 @@ Quickly generate Spring endpoint mappings using snippets:
 
 ### Available Commands
 
-| Command                         | Description                                                                    |
-| ------------------------------- | ------------------------------------------------------------------------------ |
-| **Create Batch Module** ⭐      | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
-| **Create Project Structure** ⭐ | Auto-create recommended folder structure for new Spring Boot projects          |
-| **Create JPA Relationship** ⭐  | Generate JPA relationship annotations with cascading and bidirectional support |
-| **Create Configuration Templates** ⭐ | Generate configuration classes (Database, Security, JWT, CORS)           |
-| Create Controller               | Generate basic REST controller                                                 |
-| Create Controller With CRUD     | Generate controller with CRUD endpoints                                        |
-| Create Entity                   | Generate JPA entity                                                            |
-| Create Entity With Lombok       | Generate entity with Lombok annotations                                        |
-| Create DTO                      | Generate data transfer object                                                  |
-| Create DTO With Lombok          | Generate DTO with Lombok annotations                                           |
-| Create Repository               | Generate Spring Data JPA repository (prompts for entity name)                  |
-| Create Service Implementation   | Generate service class (prompts for interface name)                            |
-| Create Exception                | Generate custom exception class                                                |
-| Create Global Exception Handler | Generate @RestControllerAdvice with exception handlers                         |
-| Create Security Configuration   | Generate Spring Security configuration class                                   |
-| Create Test Class               | Generate JUnit 5 test class with Mockito                                       |
-| Create Mapper                   | Generate entity-to-DTO mapper interface                                        |
-| Create Converter                | Generate entity-to-DTO converter component                                     |
-| Create Application Properties   | Generate application.properties file                                           |
-| Create Application YML          | Generate application.yml file                                                  |
-| Create Request DTO              | Generate HTTP request DTO                                                      |
-| Create Response DTO             | Generate HTTP response DTO                                                     |
+| Command                               | Description                                                                    |
+| ------------------------------------- | ------------------------------------------------------------------------------ |
+| **Create Batch Module** ⭐            | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
+| **Create Project Structure** ⭐       | Auto-create recommended folder structure for new Spring Boot projects          |
+| **Create JPA Relationship** ⭐        | Generate JPA relationship annotations with cascading and bidirectional support |
+| **Create Configuration Templates** ⭐ | Generate configuration classes (Database, Security, JWT, CORS)                 |
+| Create Controller                     | Generate basic REST controller                                                 |
+| Create Controller With CRUD           | Generate controller with CRUD endpoints                                        |
+| Create Entity                         | Generate JPA entity                                                            |
+| Create Entity With Lombok             | Generate entity with Lombok annotations                                        |
+| Create DTO                            | Generate data transfer object                                                  |
+| Create DTO With Lombok                | Generate DTO with Lombok annotations                                           |
+| Create Repository                     | Generate Spring Data JPA repository (prompts for entity name)                  |
+| Create Service Implementation         | Generate service class (prompts for interface name)                            |
+| Create Exception                      | Generate custom exception class                                                |
+| Create Global Exception Handler       | Generate @RestControllerAdvice with exception handlers                         |
+| Create Security Configuration         | Generate Spring Security configuration class                                   |
+| Create Test Class                     | Generate JUnit 5 test class with Mockito                                       |
+| Create Mapper                         | Generate entity-to-DTO mapper interface                                        |
+| Create Converter                      | Generate entity-to-DTO converter component                                     |
+| Create Application Properties         | Generate application.properties file                                           |
+| Create Application YML                | Generate application.yml file                                                  |
+| Create Request DTO                    | Generate HTTP request DTO                                                      |
+| Create Response DTO                   | Generate HTTP response DTO                                                     |
 
 ### JPA Relationship Configuration Options
 
