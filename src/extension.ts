@@ -5,6 +5,7 @@ import { createProjectStructure } from "./generators/structureGenerator";
 import { createRelationship } from "./generators/relationshipGenerator";
 import { createConfiguration } from "./generators/configurationGenerator";
 import { organizeProjectFiles, analyzeProjectStructure } from "./generators/fileOrganizationGenerator";
+import { createApiDocumentation } from "./generators/apiDocumentationGenerator";
 
 // Command definitions
 const COMMANDS = {
@@ -34,6 +35,7 @@ const COMMANDS = {
   CREATE_CONFIGURATION: "spring-code-generator.createConfiguration",
   ORGANIZE_PROJECT_FILES: "spring-code-generator.organizeProjectFiles",
   ANALYZE_PROJECT_STRUCTURE: "spring-code-generator.analyzeProjectStructure",
+  CREATE_API_DOCUMENTATION: "spring-code-generator.createApiDocumentation",
 } as const;
 
 // Template type mappings
@@ -172,6 +174,13 @@ function registerCommands(): vscode.Disposable[] {
   disposables.push(
     vscode.commands.registerCommand(COMMANDS.ANALYZE_PROJECT_STRUCTURE, async () => {
       await analyzeProjectStructure();
+    })
+  );
+
+  // Register API documentation command
+  disposables.push(
+    vscode.commands.registerCommand(COMMANDS.CREATE_API_DOCUMENTATION, async () => {
+      await createApiDocumentation();
     })
   );
 

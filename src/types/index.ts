@@ -57,3 +57,9 @@ export interface ConfigurationConfig {
 export interface FileOrganizationConfig {
   operation: "organize" | "analyze";
 }
+
+export interface ApiDocumentationConfig {
+  projectName: string;
+  projectDescription: string;
+  includeSecurityScheme: boolean;
+}

@@ -201,3 +201,13 @@ export const getConfigurationTypes = async (): Promise<Array<{ label: string }> 
   );
   return result as Array<{ label: string }> | null;
 };
+
+/**
+ * Gets yes/no choice from user
+ */
+export const showYesNoChoice = async (question: string): Promise<boolean> => {
+  const result = await vscode.window.showQuickPick(["Yes", "No"], {
+    placeHolder: question,
+  });
+  return result === "Yes";
+};

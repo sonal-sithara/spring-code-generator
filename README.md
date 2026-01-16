@@ -205,6 +205,43 @@ Automatically organize Spring Boot project files into proper folder structure ba
 - Quick cleanup after adding new features
 - Understanding project organization
 
+### 📚 API Documentation Generator (NEW!)
+
+Generate Swagger/OpenAPI configuration for automatic API documentation!
+
+**How it works:**
+
+1. **Spring Code Generator → Create API Documentation (Swagger/OpenAPI)**
+2. Enter project name (e.g., "User Management API")
+3. Enter project description (optional)
+4. Choose to include JWT Security Scheme (Yes/No)
+5. Complete configuration is generated! ✅
+
+**Generated Files:**
+
+- **OpenApiConfig.java** - Spring configuration class
+- **SPRINGDOC_OPENAPI_DEPENDENCIES.txt** - Maven dependencies
+- **swagger-config.yml** - Application configuration
+
+**Key Features:**
+
+- **Swagger UI Access** - http://localhost:8080/swagger-ui.html
+- **OpenAPI JSON** - http://localhost:8080/v3/api-docs
+- **OpenAPI YAML** - http://localhost:8080/v3/api-docs.yaml
+- **JWT Authentication Support** - Optional security scheme
+- **Endpoint Documentation Template** - Example annotations
+- **Multi-environment Support** - Dev, staging, production configs
+
+**Perfect for API documentation:**
+
+- Auto-generating interactive API documentation
+- Sharing API contracts with frontend teams
+- Quick API testing with Swagger UI
+- OpenAPI spec compliance
+- API versioning and documentation
+
+### Core Components
+
 - **Controller** - REST controller with request mapping
 - **Controller with CRUD** - Controller with complete CRUD operations
 - **Entity** - JPA entity with primary key annotation
@@ -297,6 +334,7 @@ Quickly generate Spring endpoint mappings using snippets:
 | **Create Configuration Templates** ⭐ | Generate configuration classes (Database, Security, JWT, CORS)                 |
 | **Organize Project Files** ⭐         | Auto-organize files into proper folder structure                               |
 | **Analyze Project Structure** ⭐      | Analyze and report file distribution across folders                            |
+| **Create API Documentation** ⭐       | Generate Swagger/OpenAPI configuration                                        |
 | Create Controller                     | Generate basic REST controller                                                 |
 | Create Controller With CRUD           | Generate controller with CRUD endpoints                                        |
 | Create Entity                         | Generate JPA entity                                                            |
