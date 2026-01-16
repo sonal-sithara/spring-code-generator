@@ -240,6 +240,315 @@ Generate Swagger/OpenAPI configuration for automatic API documentation!
 - OpenAPI spec compliance
 - API versioning and documentation
 
+## 🚀 Advanced Features (NEW!)
+
+### 💾 Database Migration Generator
+
+Generate database migrations for Flyway or Liquibase with interactive wizards!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Database Migration**
+2. Select migration tool: **Flyway** (SQL) or **Liquibase** (XML)
+3. Choose migration action:
+   - **Create Table** - Define new table with columns
+   - **Add Column** - Add column to existing table
+   - **Drop Column** - Remove column from table
+   - **Add Index** - Create index on columns
+   - **Drop Table** - Delete entire table
+4. Follow interactive prompts for table/column details
+5. Migration file is generated with timestamp! ✅
+
+**Features:**
+
+- **Flyway SQL Migrations** - Version-controlled SQL scripts
+- **Liquibase XML Migrations** - Database-agnostic changesets
+- **Interactive Column Definition** - Define multiple columns with types, nullable, defaults
+- **Automatic Timestamps** - Migration files named with timestamps
+- **Best Practices** - Follows naming conventions for both tools
+
+**Perfect for:**
+
+- Version-controlled database schema changes
+- Team collaboration on database evolution
+- Database-agnostic migrations (Liquibase)
+- Rollback capability
+
+### 🔢 API Versioning Support
+
+Create versioned API controllers for managing API evolution!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Versioned API Controller**
+2. Enter controller base name (e.g., "User", "Product")
+3. Enter API version (e.g., "v1", "v2", "v3")
+4. Choose version in URL path: `/api/v1/users` vs `/api/users`
+5. Choose version in package: `controller.v1` vs `controller`
+6. Optional CRUD operations included
+7. Versioned controller created! ✅
+
+**Features:**
+
+- **URL Path Versioning** - `/api/v1/users`, `/api/v2/users`
+- **Package Versioning** - Organize by version folders
+- **CRUD Support** - Optional complete REST operations
+- **Multiple ID Types** - Long, Integer, String, UUID
+- **Documentation Ready** - Includes JavaDoc comments
+
+**Perfect for:**
+
+- Maintaining multiple API versions
+- Backward compatibility
+- Gradual API migration
+- Enterprise API management
+
+### 🔍 Custom Query Repository Generator
+
+Generate Spring Data JPA repositories with custom query methods!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Custom Query Repository**
+2. Enter entity name and ID type
+3. Define custom query methods interactively:
+   - **Method name** - descriptive method name
+   - **Query type** - SELECT, UPDATE, DELETE, or NATIVE SQL
+   - **Return type** - Single, List, Page, Optional, Count, Boolean, Void
+   - **Parameters** - Add multiple parameters with types
+   - **Custom query** - Write JPQL or native SQL (optional)
+4. Add multiple queries as needed
+5. Complete repository interface generated! ✅
+
+**Features:**
+
+- **Derived Queries** - Spring Data method naming (no @Query needed)
+- **JPQL Queries** - Custom @Query with JPQL
+- **Native SQL** - Native SQL queries with @Query(nativeQuery = true)
+- **Pagination Support** - Automatic Pageable parameter addition
+- **Multiple Return Types** - Single entity, List, Page, Optional, etc.
+- **Query Suggestions** - Built-in examples for common patterns
+
+**Query Examples:**
+
+```java
+// Derived query - no @Query needed
+List<User> findByEmailAndActive(String email, boolean active);
+
+// JPQL query
+@Query("SELECT u FROM User u WHERE u.createdAt > :date")
+List<User> findRecentUsers(@Param("date") LocalDateTime date);
+
+// Native SQL
+@Query(value = "SELECT * FROM users WHERE status = ?1", nativeQuery = true)
+List<User> findByStatus(String status);
+
+// Pagination
+Page<User> findByActiveOrderByCreatedAtDesc(boolean active, Pageable pageable);
+```
+
+**Perfect for:**
+
+- Complex queries beyond derived queries
+- Performance-optimized native SQL
+- Custom business logic queries
+- Pagination and sorting
+
+### ☁️ Microservices Components Generator
+
+Generate microservices patterns and components instantly!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Microservice Component**
+2. Select component type:
+   - **Feign Client** - REST client for inter-service communication
+   - **Service Discovery** - Eureka server configuration
+   - **Config Client** - Spring Cloud Config client setup
+   - **Circuit Breaker** - Resilience4j fault tolerance
+   - **API Gateway** - Spring Cloud Gateway routing
+3. Follow prompts for component-specific configuration
+4. Complete implementation with config files! ✅
+
+**Components:**
+
+**1. Feign Client**
+- REST client interface with annotations
+- Optional fallback for circuit breaker
+- JSON serialization support
+- Service discovery integration
+
+**2. Service Discovery (Eureka)**
+- Eureka server @EnableEurekaServer
+- Complete application.yml configuration
+- Self-preservation and health checks
+- Dashboard at http://localhost:8761
+
+**3. Config Client**
+- Spring Cloud Config integration
+- @RefreshScope for dynamic config
+- bootstrap.yml configuration
+- Retry and failfast support
+
+**4. Circuit Breaker (Resilience4j)**
+- @CircuitBreaker annotations
+- Fallback methods
+- Retry and rate limiting
+- Complete resilience4j configuration
+
+**5. API Gateway**
+- Route configuration
+- Load balancing (lb://)
+- Request/response filters
+- CORS and security setup
+
+**Perfect for:**
+
+- Building microservices architecture
+- Service-to-service communication
+- Fault tolerance and resilience
+- Distributed configuration management
+- API gateway pattern
+
+### 📨 Event-Driven Components (Kafka/RabbitMQ)
+
+Generate event-driven messaging components for Kafka or RabbitMQ!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Event-Driven Component**
+2. Select messaging system: **Kafka** or **RabbitMQ**
+3. Choose component type: **Producer**, **Consumer**, or **Both**
+4. Enter topic/queue name
+5. Enter consumer group ID (for consumers)
+6. Enter message/event class name
+7. Complete messaging implementation created! ✅
+
+**Features:**
+
+**Kafka:**
+- Producer with KafkaTemplate
+- Consumer with @KafkaListener
+- JSON serialization/deserialization
+- Partition and offset handling
+- Complete Kafka configuration
+- Error handling and logging
+
+**RabbitMQ:**
+- Producer with RabbitTemplate
+- Consumer with @RabbitListener
+- Queue, Exchange, and Binding configuration
+- JSON message converter
+- Error handling and DLQ support
+- Complete RabbitMQ configuration
+
+**Generated Files:**
+- Message/Event class (POJO)
+- Producer service (if selected)
+- Consumer service (if selected)
+- Configuration class with beans
+- application.yml with settings
+
+**Perfect for:**
+
+- Event-driven microservices
+- Asynchronous communication
+- Message queuing
+- Event streaming with Kafka
+- Message brokering with RabbitMQ
+- Decoupled architectures
+
+### 💨 Caching Configuration Generator
+
+Generate caching configuration for Redis, Caffeine, or EhCache!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Caching Configuration**
+2. Select cache provider:
+   - **Redis** - Distributed caching for multiple instances
+   - **Caffeine** - High-performance in-memory cache
+   - **EhCache** - Popular Java caching with persistence
+3. Enter cache name
+4. Optional: Include service example with caching annotations
+5. Complete caching setup generated! ✅
+
+**Features:**
+
+**Redis Caching:**
+- RedisTemplate configuration
+- RedisCacheManager with TTL
+- JSON serialization
+- Connection pooling (Lettuce)
+- Complete application.yml config
+
+**Caffeine Caching:**
+- CaffeineCacheManager
+- Maximum size and TTL configuration
+- Statistics recording
+- High-performance in-memory
+
+**EhCache:**
+- EhCache configuration class
+- ehcache.xml generation
+- Heap and TTL settings
+- JSR-107 compliant
+
+**Service Examples Include:**
+- `@Cacheable` - Cache method results
+- `@CachePut` - Update cache
+- `@CacheEvict` - Remove from cache
+- Cache key management
+- Complete CRUD with caching
+
+**Perfect for:**
+
+- Improving application performance
+- Reducing database load
+- Distributed caching (Redis)
+- Session management
+- API response caching
+
+### ⏰ Scheduled Task Generator
+
+Generate scheduled tasks with Cron, Fixed Rate, or Fixed Delay!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Scheduled Task**
+2. Enter task name (e.g., "DataCleanup", "ReportGeneration")
+3. Select scheduler type:
+   - **Cron** - Cron expression scheduling
+   - **FixedRate** - Execute at fixed intervals
+   - **FixedDelay** - Execute with fixed delay between completions
+4. Configure timing (select from presets or enter custom)
+5. Scheduled task class generated! ✅
+
+**Cron Expression Presets:**
+- `0 0 * * * *` - Every hour
+- `0 0 0 * * *` - Every day at midnight
+- `0 0 9 * * MON-FRI` - Weekdays at 9 AM
+- `0 */15 * * * *` - Every 15 minutes
+- `0 0 12 * * *` - Every day at noon
+- Custom expression support
+
+**Features:**
+- @Scheduled annotation
+- Error handling and logging
+- Execution timing logs
+- Task status tracking
+- Multiple scheduling strategies
+
+**Perfect for:**
+
+- Data cleanup jobs
+- Report generation
+- Email notifications
+- Cache warming
+- Database maintenance
+- Periodic data synchronization
+- Health checks
+
 ### Core Components
 
 - **Controller** - REST controller with request mapping
@@ -326,33 +635,41 @@ Quickly generate Spring endpoint mappings using snippets:
 
 ### Available Commands
 
-| Command                               | Description                                                                    |
-| ------------------------------------- | ------------------------------------------------------------------------------ |
-| **Create Batch Module** ⭐            | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
-| **Create Project Structure** ⭐       | Auto-create recommended folder structure for new Spring Boot projects          |
-| **Create JPA Relationship** ⭐        | Generate JPA relationship annotations with cascading and bidirectional support |
-| **Create Configuration Templates** ⭐ | Generate configuration classes (Database, Security, JWT, CORS)                 |
-| **Organize Project Files** ⭐         | Auto-organize files into proper folder structure                               |
-| **Analyze Project Structure** ⭐      | Analyze and report file distribution across folders                            |
-| **Create API Documentation** ⭐       | Generate Swagger/OpenAPI configuration                                         |
-| Create Controller                     | Generate basic REST controller                                                 |
-| Create Controller With CRUD           | Generate controller with CRUD endpoints                                        |
-| Create Entity                         | Generate JPA entity                                                            |
-| Create Entity With Lombok             | Generate entity with Lombok annotations                                        |
-| Create DTO                            | Generate data transfer object                                                  |
-| Create DTO With Lombok                | Generate DTO with Lombok annotations                                           |
-| Create Repository                     | Generate Spring Data JPA repository (prompts for entity name)                  |
-| Create Service Implementation         | Generate service class (prompts for interface name)                            |
-| Create Exception                      | Generate custom exception class                                                |
-| Create Global Exception Handler       | Generate @RestControllerAdvice with exception handlers                         |
-| Create Security Configuration         | Generate Spring Security configuration class                                   |
-| Create Test Class                     | Generate JUnit 5 test class with Mockito                                       |
-| Create Mapper                         | Generate entity-to-DTO mapper interface                                        |
-| Create Converter                      | Generate entity-to-DTO converter component                                     |
-| Create Application Properties         | Generate application.properties file                                           |
-| Create Application YML                | Generate application.yml file                                                  |
-| Create Request DTO                    | Generate HTTP request DTO                                                      |
-| Create Response DTO                   | Generate HTTP response DTO                                                     |
+| Command                                          | Description                                                                    |
+| ------------------------------------------------ | ------------------------------------------------------------------------------ |
+| **Create Batch Module** ⭐                       | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
+| **Create Project Structure** ⭐                  | Auto-create recommended folder structure for new Spring Boot projects          |
+| **Create JPA Relationship** ⭐                   | Generate JPA relationship annotations with cascading and bidirectional support |
+| **Create Configuration Templates** ⭐            | Generate configuration classes (Database, Security, JWT, CORS)                 |
+| **Organize Project Files** ⭐                    | Auto-organize files into proper folder structure                               |
+| **Analyze Project Structure** ⭐                 | Analyze and report file distribution across folders                            |
+| **Create API Documentation** ⭐                  | Generate Swagger/OpenAPI configuration                                         |
+| **Create Database Migration** 🚀                 | Generate Flyway/Liquibase migrations (Create Table, Add Column, etc.)         |
+| **Create Versioned API Controller** 🚀           | Generate versioned controllers (v1, v2, v3) with CRUD operations               |
+| **Create Custom Query Repository** 🚀            | Generate repositories with custom JPQL/Native SQL queries                      |
+| **JPA Query Method Suggestions** 🚀              | View examples of Spring Data derived query methods                             |
+| **Create Microservice Component** 🚀             | Generate Feign Client, Eureka, Config Client, Circuit Breaker, API Gateway    |
+| **Create Event-Driven Component** 🚀             | Generate Kafka/RabbitMQ producers and consumers with configuration             |
+| **Create Caching Configuration** 🚀              | Generate Redis/Caffeine/EhCache caching setup with service examples            |
+| **Create Scheduled Task** 🚀                     | Generate scheduled tasks with Cron, Fixed Rate, or Fixed Delay                 |
+| Create Controller                                | Generate basic REST controller                                                 |
+| Create Controller With CRUD                      | Generate controller with CRUD endpoints                                        |
+| Create Entity                                    | Generate JPA entity                                                            |
+| Create Entity With Lombok                        | Generate entity with Lombok annotations                                        |
+| Create DTO                                       | Generate data transfer object                                                  |
+| Create DTO With Lombok                           | Generate DTO with Lombok annotations                                           |
+| Create Repository                                | Generate Spring Data JPA repository (prompts for entity name)                  |
+| Create Service Implementation                    | Generate service class (prompts for interface name)                            |
+| Create Exception                                 | Generate custom exception class                                                |
+| Create Global Exception Handler                  | Generate @RestControllerAdvice with exception handlers                         |
+| Create Security Configuration                    | Generate Spring Security configuration class                                   |
+| Create Test Class                                | Generate JUnit 5 test class with Mockito                                       |
+| Create Mapper                                    | Generate entity-to-DTO mapper interface                                        |
+| Create Converter                                 | Generate entity-to-DTO converter component                                     |
+| Create Application Properties                    | Generate application.properties file                                           |
+| Create Application YML                           | Generate application.yml file                                                  |
+| Create Request DTO                               | Generate HTTP request DTO                                                      |
+| Create Response DTO                              | Generate HTTP response DTO                                                     |
 
 ### JPA Relationship Configuration Options
 

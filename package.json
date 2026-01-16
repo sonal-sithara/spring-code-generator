@@ -1,10 +1,10 @@
 {
   "name": "spring-code-generator",
   "displayName": "Spring Code Generator",
-  "description": "A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring (Controller, Service, Entity, Dto) or generate crud operations with controller or just crud operations in your spring application.",
+  "description": "A powerful VS Code extension for Spring Boot development. Generate controllers, services, entities, DTOs, repositories, and more. Now with advanced features: database migrations, API versioning, microservices components, event-driven architecture (Kafka/RabbitMQ), distributed caching, and scheduled tasks.",
   "icon": "image/logo.png",
   "publisher": "SonalSithara",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "repository": "https://github.com/sonal-sithara/spring-code-generator",
   "license": "MIT",
   "engines": {
@@ -39,7 +39,15 @@
     "onCommand:spring-code-generator.createConfiguration",
     "onCommand:spring-code-generator.organizeProjectFiles",
     "onCommand:spring-code-generator.analyzeProjectStructure",
-    "onCommand:spring-code-generator.createApiDocumentation"
+    "onCommand:spring-code-generator.createApiDocumentation",
+    "onCommand:spring-code-generator.createDatabaseMigration",
+    "onCommand:spring-code-generator.createVersionedController",
+    "onCommand:spring-code-generator.createCustomQuery",
+    "onCommand:spring-code-generator.querySuggestions",
+    "onCommand:spring-code-generator.createMicroserviceComponent",
+    "onCommand:spring-code-generator.createEventDrivenComponent",
+    "onCommand:spring-code-generator.createCachingConfig",
+    "onCommand:spring-code-generator.createScheduledTask"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -168,6 +176,46 @@
         "command": "spring-code-generator.createApiDocumentation",
         "title": "Create API Documentation (Swagger/OpenAPI)",
         "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createDatabaseMigration",
+        "title": "Create Database Migration (Flyway/Liquibase)",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createVersionedController",
+        "title": "Create Versioned API Controller",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createCustomQuery",
+        "title": "Create Custom Query Repository",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.querySuggestions",
+        "title": "JPA Query Method Suggestions",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createMicroserviceComponent",
+        "title": "Create Microservice Component",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createEventDrivenComponent",
+        "title": "Create Event-Driven Component (Kafka/RabbitMQ)",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createCachingConfig",
+        "title": "Create Caching Configuration (Redis/Caffeine/EhCache)",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createScheduledTask",
+        "title": "Create Scheduled Task",
+        "category": "Spring Code Generator"
       }
     ],
     "menus": {
@@ -276,6 +324,38 @@
         {
           "command": "spring-code-generator.createApiDocumentation",
           "group": "documentation"
+        },
+        {
+          "command": "spring-code-generator.createDatabaseMigration",
+          "group": "advanced"
+        },
+        {
+          "command": "spring-code-generator.createVersionedController",
+          "group": "advanced"
+        },
+        {
+          "command": "spring-code-generator.createCustomQuery",
+          "group": "advanced"
+        },
+        {
+          "command": "spring-code-generator.querySuggestions",
+          "group": "advanced"
+        },
+        {
+          "command": "spring-code-generator.createMicroserviceComponent",
+          "group": "advanced"
+        },
+        {
+          "command": "spring-code-generator.createEventDrivenComponent",
+          "group": "advanced"
+        },
+        {
+          "command": "spring-code-generator.createCachingConfig",
+          "group": "advanced"
+        },
+        {
+          "command": "spring-code-generator.createScheduledTask",
+          "group": "advanced"
         }
       ]
     },

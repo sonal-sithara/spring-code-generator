@@ -9,6 +9,12 @@ const relationshipGenerator_1 = require("./generators/relationshipGenerator");
 const configurationGenerator_1 = require("./generators/configurationGenerator");
 const fileOrganizationGenerator_1 = require("./generators/fileOrganizationGenerator");
 const apiDocumentationGenerator_1 = require("./generators/apiDocumentationGenerator");
+const migrationGenerator_1 = require("./generators/migrationGenerator");
+const versioningGenerator_1 = require("./generators/versioningGenerator");
+const customQueryGenerator_1 = require("./generators/customQueryGenerator");
+const microservicesGenerator_1 = require("./generators/microservicesGenerator");
+const eventDrivenGenerator_1 = require("./generators/eventDrivenGenerator");
+const cachingSchedulingGenerator_1 = require("./generators/cachingSchedulingGenerator");
 // Command definitions
 const COMMANDS = {
     CREATE_CONTROLLER: "spring-code-generator.createController",
@@ -36,6 +42,15 @@ const COMMANDS = {
     ORGANIZE_PROJECT_FILES: "spring-code-generator.organizeProjectFiles",
     ANALYZE_PROJECT_STRUCTURE: "spring-code-generator.analyzeProjectStructure",
     CREATE_API_DOCUMENTATION: "spring-code-generator.createApiDocumentation",
+    // Advanced Features
+    CREATE_DATABASE_MIGRATION: "spring-code-generator.createDatabaseMigration",
+    CREATE_VERSIONED_CONTROLLER: "spring-code-generator.createVersionedController",
+    CREATE_CUSTOM_QUERY: "spring-code-generator.createCustomQuery",
+    QUERY_SUGGESTIONS: "spring-code-generator.querySuggestions",
+    CREATE_MICROSERVICE_COMPONENT: "spring-code-generator.createMicroserviceComponent",
+    CREATE_EVENT_DRIVEN_COMPONENT: "spring-code-generator.createEventDrivenComponent",
+    CREATE_CACHING_CONFIG: "spring-code-generator.createCachingConfig",
+    CREATE_SCHEDULED_TASK: "spring-code-generator.createScheduledTask",
 };
 // Template type mappings
 const TEMPLATE_TYPES = {
@@ -154,6 +169,31 @@ function registerCommands() {
     // Register API documentation command
     disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_API_DOCUMENTATION, async () => {
         await (0, apiDocumentationGenerator_1.createApiDocumentation)();
+    }));
+    // Register advanced feature commands
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_DATABASE_MIGRATION, async (folder) => {
+        await (0, migrationGenerator_1.createDatabaseMigration)(folder);
+    }));
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_VERSIONED_CONTROLLER, async (folder) => {
+        await (0, versioningGenerator_1.createVersionedController)(folder);
+    }));
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_CUSTOM_QUERY, async (folder) => {
+        await (0, customQueryGenerator_1.createCustomQueryRepository)(folder);
+    }));
+    disposables.push(vscode.commands.registerCommand(COMMANDS.QUERY_SUGGESTIONS, async (folder) => {
+        await (0, customQueryGenerator_1.generateQuerySuggestions)(folder);
+    }));
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_MICROSERVICE_COMPONENT, async (folder) => {
+        await (0, microservicesGenerator_1.createMicroserviceComponent)(folder);
+    }));
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_EVENT_DRIVEN_COMPONENT, async (folder) => {
+        await (0, eventDrivenGenerator_1.createEventDrivenComponent)(folder);
+    }));
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_CACHING_CONFIG, async (folder) => {
+        await (0, cachingSchedulingGenerator_1.createCachingConfiguration)(folder);
+    }));
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_SCHEDULED_TASK, async (folder) => {
+        await (0, cachingSchedulingGenerator_1.createScheduledTask)(folder);
     }));
     return disposables;
 }
