@@ -1,0 +1,23 @@
+package package-des;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class TempClassName {
+    
+    public Object toDto(Object entity) {
+        if (entity == null) {
+            return null;
+        }
+        // Add mapping logic here
+        return new Object();
+    }
+    
+    public Object toEntity(Object dto) {
+        if (dto == null) {
+            return null;
+        }
+        // Add mapping logic here
+        return new Object();
+    }
+}

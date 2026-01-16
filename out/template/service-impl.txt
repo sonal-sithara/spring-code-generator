@@ -5,6 +5,10 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class TempClassName {
+public class TempClassName implements interfaceName {
     
+    @Override
+    public void method() {
+        // Implementation
+    }
 }

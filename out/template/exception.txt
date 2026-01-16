@@ -1,0 +1,12 @@
+package package-des;
+
+public class TempClassName extends RuntimeException {
+    
+    public TempClassName(String message) {
+        super(message);
+    }
+    
+    public TempClassName(String message, Throwable cause) {
+        super(message, cause);
+    }
+}

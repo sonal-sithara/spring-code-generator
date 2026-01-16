@@ -1,0 +1,5 @@
+package package-des;
+
+public interface TempClassName {
+    
+}

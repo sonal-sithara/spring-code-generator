@@ -1,0 +1,35 @@
+package package-des;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+@DisplayName("TempClassName Test")
+public class TempClassNameTest {
+    
+    @InjectMocks
+    private TempClassName tempClassName;
+    
+    @Mock
+    private Object mockDependency;
+    
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+    
+    @Test
+    @DisplayName("Test case description")
+    public void testMethod() {
+        // Arrange
+        
+        // Act
+        
+        // Assert
+    }
+}

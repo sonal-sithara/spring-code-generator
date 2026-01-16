@@ -1,0 +1,21 @@
+package package-des;
+
+public class TempClassNameRequest {
+    
+    private String property;
+    
+    public TempClassNameRequest() {
+    }
+    
+    public TempClassNameRequest(String property) {
+        this.property = property;
+    }
+    
+    public String getProperty() {
+        return property;
+    }
+    
+    public void setProperty(String property) {
+        this.property = property;
+    }
+}

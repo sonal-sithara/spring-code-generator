@@ -4,7 +4,7 @@
   "description": "A extension for Visual Studio Code based on java spring framework.This extension can generate necessary file in spring (Controller, Service, Entity, Dto) or generate crud operations with controller or just crud operations in your spring application.",
   "icon": "image/logo.png",
   "publisher": "SonalSithara",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "repository": "https://github.com/sonal-sithara/spring-code-generator",
   "license": "MIT",
   "engines": {
@@ -17,13 +17,22 @@
   "activationEvents": [
     "onCommand:spring-code-generator.createController",
     "onCommand:spring-code-generator.createControllerWithCrud",
-    "onCommand:spring-code-generator.createService",
     "onCommand:spring-code-generator.createEntity",
     "onCommand:spring-code-generator.createDto",
     "onCommand:spring-code-generator.createRepository",
     "onCommand:spring-code-generator.createEntityWithLombok",
-    "onCommand:spring-code-generator.createDtoWithLombok"
-    
+    "onCommand:spring-code-generator.createDtoWithLombok",
+    "onCommand:spring-code-generator.createException",
+    "onCommand:spring-code-generator.createGlobalExceptionHandler",
+    "onCommand:spring-code-generator.createApplicationProperties",
+    "onCommand:spring-code-generator.createApplicationYml",
+    "onCommand:spring-code-generator.createMapper",
+    "onCommand:spring-code-generator.createConverter",
+    "onCommand:spring-code-generator.createSecurityConfig",
+    "onCommand:spring-code-generator.createTestClass",
+    "onCommand:spring-code-generator.createServiceImpl",
+    "onCommand:spring-code-generator.createRequestDto",
+    "onCommand:spring-code-generator.createResponseDto"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -36,11 +45,6 @@
       {
         "command": "spring-code-generator.createControllerWithCrud",
         "title": "Create Controller With Crud",
-        "category": "Spring Code Generator"
-      },
-      {
-        "command": "spring-code-generator.createService",
-        "title": "Create Service",
         "category": "Spring Code Generator"
       },
       {
@@ -67,6 +71,61 @@
         "command": "spring-code-generator.createRepository",
         "title": "Create Repository",
         "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createException",
+        "title": "Create Exception",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createGlobalExceptionHandler",
+        "title": "Create Global Exception Handler",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createApplicationProperties",
+        "title": "Create Application Properties",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createApplicationYml",
+        "title": "Create Application YML",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createMapper",
+        "title": "Create Mapper",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createConverter",
+        "title": "Create Converter",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createSecurityConfig",
+        "title": "Create Security Configuration",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createTestClass",
+        "title": "Create Test Class",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createServiceImpl",
+        "title": "Create Service Implementation",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createRequestDto",
+        "title": "Create Request DTO",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createResponseDto",
+        "title": "Create Response DTO",
+        "category": "Spring Code Generator"
       }
     ],
     "menus": {
@@ -89,16 +148,56 @@
           "group": "service"
         },
         {
-          "command": "spring-code-generator.createEntity",
-          "group": "entity"
-        },
-        {
           "command": "spring-code-generator.createDto",
           "group": "dto"
         },
         {
           "command": "spring-code-generator.createRepository",
           "group": "repository"
+        },
+        {
+          "command": "spring-code-generator.createException",
+          "group": "exception"
+        },
+        {
+          "command": "spring-code-generator.createGlobalExceptionHandler",
+          "group": "exception"
+        },
+        {
+          "command": "spring-code-generator.createApplicationProperties",
+          "group": "config"
+        },
+        {
+          "command": "spring-code-generator.createApplicationYml",
+          "group": "config"
+        },
+        {
+          "command": "spring-code-generator.createMapper",
+          "group": "mapper"
+        },
+        {
+          "command": "spring-code-generator.createConverter",
+          "group": "mapper"
+        },
+        {
+          "command": "spring-code-generator.createSecurityConfig",
+          "group": "security"
+        },
+        {
+          "command": "spring-code-generator.createTestClass",
+          "group": "test"
+        },
+        {
+          "command": "spring-code-generator.createServiceImpl",
+          "group": "service"
+        },
+        {
+          "command": "spring-code-generator.createRequestDto",
+          "group": "dto"
+        },
+        {
+          "command": "spring-code-generator.createResponseDto",
+          "group": "dto"
         },
         {
           "command": "spring-code-generator.createDtoWithLombok",

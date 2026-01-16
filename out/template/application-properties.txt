@@ -1,0 +1,16 @@
+spring.application.name=TempClassName
+server.port=8080
+
+# Database Configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/TempClassNameDB
+spring.datasource.username=root
+spring.datasource.password=
+
+# JPA Configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+# Logging
+logging.level.root=INFO
+logging.level.package-des=DEBUG
