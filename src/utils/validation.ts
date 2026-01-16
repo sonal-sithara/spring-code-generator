@@ -182,3 +182,22 @@ export const getCascadeOptions = async (): Promise<string[]> => {
   );
   return result?.map((item: any) => item.label) || [];
 };
+
+/**
+ * Gets configuration types from user
+ */
+export const getConfigurationTypes = async (): Promise<Array<{ label: string }> | null> => {
+  const result = await vscode.window.showQuickPick(
+    [
+      { label: "Database", picked: true, description: "JPA & Hibernate configuration" },
+      { label: "Security", picked: false, description: "Spring Security configuration" },
+      { label: "JWT", picked: false, description: "JWT authentication configuration" },
+      { label: "CORS", picked: false, description: "CORS (Cross-Origin Resource Sharing)" },
+    ],
+    {
+      canPickMany: true,
+      placeHolder: "Select configuration templates to generate",
+    }
+  );
+  return result as Array<{ label: string }> | null;
+};

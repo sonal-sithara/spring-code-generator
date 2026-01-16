@@ -6,6 +6,7 @@ const fileGenerator_1 = require("./generators/fileGenerator");
 const moduleGenerator_1 = require("./generators/moduleGenerator");
 const structureGenerator_1 = require("./generators/structureGenerator");
 const relationshipGenerator_1 = require("./generators/relationshipGenerator");
+const configurationGenerator_1 = require("./generators/configurationGenerator");
 // Command definitions
 const COMMANDS = {
     CREATE_CONTROLLER: "spring-code-generator.createController",
@@ -29,6 +30,7 @@ const COMMANDS = {
     CREATE_BATCH_MODULE: "spring-code-generator.createBatchModule",
     CREATE_PROJECT_STRUCTURE: "spring-code-generator.createProjectStructure",
     CREATE_RELATIONSHIP: "spring-code-generator.createRelationship",
+    CREATE_CONFIGURATION: "spring-code-generator.createConfiguration",
 };
 // Template type mappings
 const TEMPLATE_TYPES = {
@@ -131,6 +133,10 @@ function registerCommands() {
     // Register relationship command
     disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_RELATIONSHIP, async (folder) => {
         await (0, relationshipGenerator_1.createRelationship)();
+    }));
+    // Register configuration command
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_CONFIGURATION, async (folder) => {
+        await (0, configurationGenerator_1.createConfiguration)();
     }));
     return disposables;
 }

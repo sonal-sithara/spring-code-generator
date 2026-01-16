@@ -35,7 +35,8 @@
     "onCommand:spring-code-generator.createResponseDto",
     "onCommand:spring-code-generator.createBatchModule",
     "onCommand:spring-code-generator.createProjectStructure",
-    "onCommand:spring-code-generator.createRelationship"
+    "onCommand:spring-code-generator.createRelationship",
+    "onCommand:spring-code-generator.createConfiguration"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -144,6 +145,11 @@
         "command": "spring-code-generator.createRelationship",
         "title": "Create JPA Relationship",
         "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.createConfiguration",
+        "title": "Create Configuration Templates",
+        "category": "Spring Code Generator"
       }
     ],
     "menus": {
@@ -236,6 +242,10 @@
         {
           "command": "spring-code-generator.createRelationship",
           "group": "entity"
+        },
+        {
+          "command": "spring-code-generator.createConfiguration",
+          "group": "config"
         }
       ]
     },

@@ -106,6 +106,57 @@ public void removePost(Post post) {
 }
 ```
 
+### ⚙️ Configuration Templates Generator (NEW!)
+
+Generate ready-to-use Spring Boot configuration classes quickly!
+
+**How it works:**
+
+1. **Spring Code Generator → Create Configuration Templates**
+2. Select one or more configuration types:
+   - **Database** - JPA, Hibernate, and transaction management setup
+   - **Security** - Spring Security with authentication and authorization
+   - **JWT** - JSON Web Token (JWT) authentication setup
+   - **CORS** - Cross-Origin Resource Sharing configuration
+3. Select and complete! ✅
+
+**Generated configurations include:**
+
+- **Database Configuration**
+  - JPA repository scanning
+  - Entity scanning
+  - Transaction management
+  - JPA auditing support
+  - Helpful comments for application.yml properties
+
+- **Security Configuration**
+  - Password encoder (BCryptPasswordEncoder)
+  - Authentication manager
+  - Security filter chain setup
+  - CSRF protection disable
+  - Login/logout configuration
+
+- **JWT Configuration**
+  - Token generation from username
+  - Token generation with custom claims
+  - Username extraction from token
+  - Token validation
+  - Expiration checking
+  - Secret key management (HMAC SHA-512)
+
+- **CORS Configuration**
+  - Customizable allowed origins
+  - HTTP methods configuration
+  - Credentials support
+  - Max age settings
+  - Common preset origins (localhost:3000, 4200, 8080)
+
+**Perfect for:**
+- Quick project setup
+- Consistent configuration across projects
+- Learning Spring Boot configuration best practices
+- Copy-paste ready code with helpful comments
+
 ### Core Components
 
 - **Controller** - REST controller with request mapping
@@ -197,6 +248,7 @@ Quickly generate Spring endpoint mappings using snippets:
 | **Create Batch Module** ⭐      | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
 | **Create Project Structure** ⭐ | Auto-create recommended folder structure for new Spring Boot projects          |
 | **Create JPA Relationship** ⭐  | Generate JPA relationship annotations with cascading and bidirectional support |
+| **Create Configuration Templates** ⭐ | Generate configuration classes (Database, Security, JWT, CORS)           |
 | Create Controller               | Generate basic REST controller                                                 |
 | Create Controller With CRUD     | Generate controller with CRUD endpoints                                        |
 | Create Entity                   | Generate JPA entity                                                            |

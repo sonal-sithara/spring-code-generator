@@ -14,7 +14,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRelationship = exports.createProjectStructure = exports.createBatchModule = exports.createFile = void 0;
+exports.createConfiguration = exports.createRelationship = exports.createProjectStructure = exports.createBatchModule = exports.createFile = void 0;
 // Re-export all functions from generators for backward compatibility
 var fileGenerator_1 = require("./generators/fileGenerator");
 Object.defineProperty(exports, "createFile", { enumerable: true, get: function () { return fileGenerator_1.createFile; } });
@@ -24,6 +24,8 @@ var structureGenerator_1 = require("./generators/structureGenerator");
 Object.defineProperty(exports, "createProjectStructure", { enumerable: true, get: function () { return structureGenerator_1.createProjectStructure; } });
 var relationshipGenerator_1 = require("./generators/relationshipGenerator");
 Object.defineProperty(exports, "createRelationship", { enumerable: true, get: function () { return relationshipGenerator_1.createRelationship; } });
+var configurationGenerator_1 = require("./generators/configurationGenerator");
+Object.defineProperty(exports, "createConfiguration", { enumerable: true, get: function () { return configurationGenerator_1.createConfiguration; } });
 // Re-export types
 __exportStar(require("./types"), exports);
 __exportStar(require("./constants"), exports);

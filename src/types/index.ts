@@ -49,3 +49,7 @@ export interface RelationshipConfig {
   isBidirectional: boolean;
   cascadeOptions: string[];
 }
+
+export interface ConfigurationConfig {
+  type: "Database" | "Security" | "JWT" | "CORS";
+}

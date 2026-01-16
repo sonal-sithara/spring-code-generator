@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCascadeOptions = exports.getBidirectionalOption = exports.getTargetEntityName = exports.getRelationshipName = exports.getRelationshipType = exports.showWarningMessage = exports.showErrorMessage = exports.showInfoMessage = exports.showQuickPick = exports.getInterfaceName = exports.getEntityName = exports.getDataType = exports.getProjectName = exports.getModuleName = exports.getClassName = exports.isValidInput = void 0;
+exports.getConfigurationTypes = exports.getCascadeOptions = exports.getBidirectionalOption = exports.getTargetEntityName = exports.getRelationshipName = exports.getRelationshipType = exports.showWarningMessage = exports.showErrorMessage = exports.showInfoMessage = exports.showQuickPick = exports.getInterfaceName = exports.getEntityName = exports.getDataType = exports.getProjectName = exports.getModuleName = exports.getClassName = exports.isValidInput = void 0;
 const vscode = require("vscode");
 /**
  * Validates if input is not empty or null
@@ -167,4 +167,20 @@ const getCascadeOptions = async () => {
     return result?.map((item) => item.label) || [];
 };
 exports.getCascadeOptions = getCascadeOptions;
+/**
+ * Gets configuration types from user
+ */
+const getConfigurationTypes = async () => {
+    const result = await vscode.window.showQuickPick([
+        { label: "Database", picked: true, description: "JPA & Hibernate configuration" },
+        { label: "Security", picked: false, description: "Spring Security configuration" },
+        { label: "JWT", picked: false, description: "JWT authentication configuration" },
+        { label: "CORS", picked: false, description: "CORS (Cross-Origin Resource Sharing)" },
+    ], {
+        canPickMany: true,
+        placeHolder: "Select configuration templates to generate",
+    });
+    return result;
+};
+exports.getConfigurationTypes = getConfigurationTypes;
 //# sourceMappingURL=validation.js.map
