@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getConfigurationTypes = exports.getCascadeOptions = exports.getBidirectionalOption = exports.getTargetEntityName = exports.getRelationshipName = exports.getRelationshipType = exports.showWarningMessage = exports.showErrorMessage = exports.showInfoMessage = exports.showQuickPick = exports.getInterfaceName = exports.getEntityName = exports.getDataType = exports.getProjectName = exports.getModuleName = exports.getClassName = exports.isValidInput = void 0;
+exports.showYesNoChoice = exports.getConfigurationTypes = exports.getCascadeOptions = exports.getBidirectionalOption = exports.getTargetEntityName = exports.getRelationshipName = exports.getRelationshipType = exports.showWarningMessage = exports.showErrorMessage = exports.showInfoMessage = exports.showQuickPick = exports.getInterfaceName = exports.getEntityName = exports.getDataType = exports.getProjectName = exports.getModuleName = exports.getClassName = exports.isValidInput = void 0;
 const vscode = require("vscode");
 /**
  * Validates if input is not empty or null
@@ -183,4 +183,14 @@ const getConfigurationTypes = async () => {
     return result;
 };
 exports.getConfigurationTypes = getConfigurationTypes;
+/**
+ * Gets yes/no choice from user
+ */
+const showYesNoChoice = async (question) => {
+    const result = await vscode.window.showQuickPick(["Yes", "No"], {
+        placeHolder: question,
+    });
+    return result === "Yes";
+};
+exports.showYesNoChoice = showYesNoChoice;
 //# sourceMappingURL=validation.js.map

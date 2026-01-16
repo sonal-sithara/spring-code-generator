@@ -8,6 +8,7 @@ const structureGenerator_1 = require("./generators/structureGenerator");
 const relationshipGenerator_1 = require("./generators/relationshipGenerator");
 const configurationGenerator_1 = require("./generators/configurationGenerator");
 const fileOrganizationGenerator_1 = require("./generators/fileOrganizationGenerator");
+const apiDocumentationGenerator_1 = require("./generators/apiDocumentationGenerator");
 // Command definitions
 const COMMANDS = {
     CREATE_CONTROLLER: "spring-code-generator.createController",
@@ -34,6 +35,7 @@ const COMMANDS = {
     CREATE_CONFIGURATION: "spring-code-generator.createConfiguration",
     ORGANIZE_PROJECT_FILES: "spring-code-generator.organizeProjectFiles",
     ANALYZE_PROJECT_STRUCTURE: "spring-code-generator.analyzeProjectStructure",
+    CREATE_API_DOCUMENTATION: "spring-code-generator.createApiDocumentation",
 };
 // Template type mappings
 const TEMPLATE_TYPES = {
@@ -148,6 +150,10 @@ function registerCommands() {
     // Register analyze project structure command
     disposables.push(vscode.commands.registerCommand(COMMANDS.ANALYZE_PROJECT_STRUCTURE, async () => {
         await (0, fileOrganizationGenerator_1.analyzeProjectStructure)();
+    }));
+    // Register API documentation command
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_API_DOCUMENTATION, async () => {
+        await (0, apiDocumentationGenerator_1.createApiDocumentation)();
     }));
     return disposables;
 }
