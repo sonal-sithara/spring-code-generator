@@ -11,6 +11,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 #### ✨ New Advanced Features
 
 ##### 💾 Database Migration Generator
+
 - **Flyway Support**: Generate versioned SQL migration files
 - **Liquibase Support**: Generate XML-based database changesets
 - **Migration Actions**: Create Table, Add Column, Drop Column, Add Index, Drop Table
@@ -19,6 +20,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - **Best Practices**: Follows naming conventions for both Flyway and Liquibase
 
 ##### 🔢 API Versioning Support
+
 - **Versioned Controllers**: Generate v1, v2, v3, etc. controllers
 - **URL Path Versioning**: Support for `/api/v1/resource` pattern
 - **Package Versioning**: Organize controllers in version-specific packages
@@ -27,6 +29,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - **JavaDoc Documentation**: Includes comprehensive method documentation
 
 ##### 🔍 Custom Query Repository Generator
+
 - **Derived Queries**: Support for Spring Data method naming patterns
 - **JPQL Queries**: Generate custom @Query annotations with JPQL
 - **Native SQL**: Support for native SQL queries with @Query(nativeQuery = true)
@@ -37,6 +40,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - **Modifying Queries**: @Modifying and @Transactional for UPDATE/DELETE
 
 ##### ☁️ Microservices Components Generator
+
 - **Feign Client**: REST client with fallback support for inter-service communication
 - **Service Discovery**: Complete Eureka server setup with dashboard
 - **Config Client**: Spring Cloud Config client with @RefreshScope
@@ -46,6 +50,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - **Production Ready**: Includes error handling, logging, and best practices
 
 ##### 📨 Event-Driven Components (Kafka/RabbitMQ)
+
 - **Kafka Producer**: KafkaTemplate-based message publishing with JSON serialization
 - **Kafka Consumer**: @KafkaListener with error handling and offset management
 - **RabbitMQ Producer**: RabbitTemplate with message conversion
@@ -56,6 +61,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - **Both Modes**: Generate Producer, Consumer, or Both in one command
 
 ##### 💨 Caching Configuration Generator
+
 - **Redis Caching**: Distributed caching with RedisCacheManager and TTL
 - **Caffeine Caching**: High-performance in-memory cache with statistics
 - **EhCache**: JSR-107 compliant caching with ehcache.xml generation
@@ -66,6 +72,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - **Connection Pooling**: Lettuce connection pool for Redis
 
 ##### ⏰ Scheduled Task Generator
+
 - **Cron Scheduling**: Generate cron-based scheduled tasks
 - **Fixed Rate**: Execute at fixed time intervals
 - **Fixed Delay**: Execute with fixed delay between completions
@@ -76,6 +83,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - **@EnableScheduling Ready**: Includes setup instructions
 
 #### 📊 Commands Added
+
 - `Create Database Migration (Flyway/Liquibase)`
 - `Create Versioned API Controller`
 - `Create Custom Query Repository`
@@ -86,6 +94,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - `Create Scheduled Task`
 
 #### 🔧 Technical Improvements
+
 - Added 6 new generator modules
 - Added 8 new TypeScript interfaces for type safety
 - Updated extension activation events
@@ -94,6 +103,7 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - Interactive wizards with validation
 
 #### 📚 Documentation
+
 - Updated README with detailed feature documentation
 - Added usage examples for all new features
 - Included code samples and configuration examples
@@ -101,7 +111,9 @@ This release adds 8 powerful advanced features for building modern, scalable Spr
 - Updated command reference table
 
 ### 🎯 Use Cases
+
 Perfect for building:
+
 - **Microservices Architecture**: Feign clients, service discovery, API gateway
 - **Event-Driven Systems**: Kafka/RabbitMQ producers and consumers
 - **Distributed Applications**: Redis caching for multiple instances
