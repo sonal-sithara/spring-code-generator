@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
-import { createFile, createBatchModule, createProjectStructure } from "./main";
+import { createFile } from "./generators/fileGenerator";
+import { createBatchModule } from "./generators/moduleGenerator";
+import { createProjectStructure } from "./generators/structureGenerator";
 
 // Command definitions
 const COMMANDS = {
