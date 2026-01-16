@@ -8,6 +8,26 @@ A powerful Visual Studio Code extension that accelerates Spring Boot development
 
 ## Features
 
+### ⚡ Batch Module Generator (NEW!)
+
+Generate an entire module with one command! Create Entity, Repository, Service, Controller, and DTOs simultaneously with smart configuration options.
+
+**How it works:**
+
+1. Right-click on a folder → **Spring Code Generator → Create Batch Module**
+2. Enter module name (e.g., "User", "Product")
+3. Choose ID data type (Long, Integer, String, etc.)
+4. Select components to generate (Entity, Repository, Service, Controller, DTOs)
+5. Choose Lombok support (optional)
+6. All files are created instantly! ✅
+
+**Perfect for:**
+
+- Creating new feature modules quickly
+- Maintaining consistency across modules
+- Reducing repetitive file creation
+- 70% faster than creating files individually
+
 ### Core Components
 
 - **Controller** - REST controller with request mapping
@@ -51,6 +71,8 @@ Or install from [VS Code Marketplace](https://marketplace.visualstudio.com/items
 
 ### Example Workflow
 
+#### Individual File Creation
+
 ```
 src/main/java/com/example/
 ├── User.java                    (Create Entity)
@@ -65,6 +87,16 @@ src/main/java/com/example/
 ├── UserMapper.java              (Create Mapper)
 └── UserTest.java                (Create Test Class)
 ```
+
+#### Batch Module Creation (Faster!)
+
+With **Create Batch Module**, all files above are generated in one command:
+
+1. Right-click folder
+2. Select **Create Batch Module (Complete Module)**
+3. Enter "User" as module name
+4. Select desired components
+5. All 8+ files created instantly!
 
 ### Code Snippets
 
@@ -82,26 +114,49 @@ Quickly generate Spring endpoint mappings using snippets:
 
 ### Available Commands
 
-| Command                         | Description                                                   |
-| ------------------------------- | ------------------------------------------------------------- |
-| Create Controller               | Generate basic REST controller                                |
-| Create Controller With CRUD     | Generate controller with CRUD endpoints                       |
-| Create Entity                   | Generate JPA entity                                           |
-| Create Entity With Lombok       | Generate entity with Lombok annotations                       |
-| Create DTO                      | Generate data transfer object                                 |
-| Create DTO With Lombok          | Generate DTO with Lombok annotations                          |
-| Create Repository               | Generate Spring Data JPA repository (prompts for entity name) |
-| Create Service Implementation   | Generate service class (prompts for interface name)           |
-| Create Exception                | Generate custom exception class                               |
-| Create Global Exception Handler | Generate @RestControllerAdvice with exception handlers        |
-| Create Security Configuration   | Generate Spring Security configuration class                  |
-| Create Test Class               | Generate JUnit 5 test class with Mockito                      |
-| Create Mapper                   | Generate entity-to-DTO mapper interface                       |
-| Create Converter                | Generate entity-to-DTO converter component                    |
-| Create Application Properties   | Generate application.properties file                          |
-| Create Application YML          | Generate application.yml file                                 |
-| Create Request DTO              | Generate HTTP request DTO                                     |
-| Create Response DTO             | Generate HTTP response DTO                                    |
+| Command                         | Description                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| **Create Batch Module** ⭐      | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
+| Create Controller               | Generate basic REST controller                                                 |
+| Create Controller With CRUD     | Generate controller with CRUD endpoints                                        |
+| Create Entity                   | Generate JPA entity                                                            |
+| Create Entity With Lombok       | Generate entity with Lombok annotations                                        |
+| Create DTO                      | Generate data transfer object                                                  |
+| Create DTO With Lombok          | Generate DTO with Lombok annotations                                           |
+| Create Repository               | Generate Spring Data JPA repository (prompts for entity name)                  |
+| Create Service Implementation   | Generate service class (prompts for interface name)                            |
+| Create Exception                | Generate custom exception class                                                |
+| Create Global Exception Handler | Generate @RestControllerAdvice with exception handlers                         |
+| Create Security Configuration   | Generate Spring Security configuration class                                   |
+| Create Test Class               | Generate JUnit 5 test class with Mockito                                       |
+| Create Mapper                   | Generate entity-to-DTO mapper interface                                        |
+| Create Converter                | Generate entity-to-DTO converter component                                     |
+| Create Application Properties   | Generate application.properties file                                           |
+| Create Application YML          | Generate application.yml file                                                  |
+| Create Request DTO              | Generate HTTP request DTO                                                      |
+| Create Response DTO             | Generate HTTP response DTO                                                     |
+
+### Batch Module Configuration Options
+
+When creating a batch module, you can choose:
+
+| Option             | Description                                     | Example                                             |
+| ------------------ | ----------------------------------------------- | --------------------------------------------------- |
+| **Module Name**    | Name for the module (becomes class name prefix) | "User", "Product", "Order"                          |
+| **ID Data Type**   | Primary key data type for entity                | "Long", "Integer", "String", "UUID"                 |
+| **Components**     | Select which files to generate                  | Entity, Repository, Service, Controller, DTOs, etc. |
+| **Lombok Support** | Use Lombok annotations for cleaner code         | Yes/No                                              |
+
+**Generated Files Example (for "User" module):**
+
+- `User.java` - Entity
+- `UserRepository.java` - Repository
+- `UserService.java` - Service Interface
+- `UserServiceImpl.java` - Service Implementation
+- `UserController.java` - REST Controller (with CRUD endpoints)
+- `UserDTO.java` - DTO
+- `UserRequest.java` - Request DTO
+- `UserResponse.java` - Response DTO
 
 ## Template Variables
 

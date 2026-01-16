@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { createFile } from "./main";
+import { createFile, createBatchModule } from "./main";
 
 // Command definitions
 const COMMANDS = {
@@ -23,6 +23,7 @@ const COMMANDS = {
   CREATE_SERVICE_IMPL: "spring-code-generator.createServiceImpl",
   CREATE_REQUEST_DTO: "spring-code-generator.createRequestDto",
   CREATE_RESPONSE_DTO: "spring-code-generator.createResponseDto",
+  CREATE_BATCH_MODULE: "spring-code-generator.createBatchModule",
 } as const;
 
 // Template type mappings
@@ -121,6 +122,13 @@ function registerCommands(): vscode.Disposable[] {
       })
     );
   });
+
+  // Register batch module command separately
+  disposables.push(
+    vscode.commands.registerCommand(COMMANDS.CREATE_BATCH_MODULE, async (folder) => {
+      await createBatchModule(folder);
+    })
+  );
 
   return disposables;
 }
