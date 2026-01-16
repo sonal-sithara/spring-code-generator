@@ -2,7 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
 const vscode = require("vscode");
-const main_1 = require("./main");
+const fileGenerator_1 = require("./generators/fileGenerator");
+const moduleGenerator_1 = require("./generators/moduleGenerator");
+const structureGenerator_1 = require("./generators/structureGenerator");
+const relationshipGenerator_1 = require("./generators/relationshipGenerator");
 // Command definitions
 const COMMANDS = {
     CREATE_CONTROLLER: "spring-code-generator.createController",
@@ -23,6 +26,9 @@ const COMMANDS = {
     CREATE_SERVICE_IMPL: "spring-code-generator.createServiceImpl",
     CREATE_REQUEST_DTO: "spring-code-generator.createRequestDto",
     CREATE_RESPONSE_DTO: "spring-code-generator.createResponseDto",
+    CREATE_BATCH_MODULE: "spring-code-generator.createBatchModule",
+    CREATE_PROJECT_STRUCTURE: "spring-code-generator.createProjectStructure",
+    CREATE_RELATIONSHIP: "spring-code-generator.createRelationship",
 };
 // Template type mappings
 const TEMPLATE_TYPES = {
@@ -111,9 +117,21 @@ function registerCommands() {
     ];
     commandConfigs.forEach(({ command, type }) => {
         disposables.push(vscode.commands.registerCommand(command, async (folder) => {
-            await (0, main_1.createFile)(folder, type);
+            await (0, fileGenerator_1.createFile)(folder, type);
         }));
     });
+    // Register batch module command separately
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_BATCH_MODULE, async (folder) => {
+        await (0, moduleGenerator_1.createBatchModule)(folder);
+    }));
+    // Register project structure command
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_PROJECT_STRUCTURE, async (folder) => {
+        await (0, structureGenerator_1.createProjectStructure)(folder);
+    }));
+    // Register relationship command
+    disposables.push(vscode.commands.registerCommand(COMMANDS.CREATE_RELATIONSHIP, async (folder) => {
+        await (0, relationshipGenerator_1.createRelationship)();
+    }));
     return disposables;
 }
 /**

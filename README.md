@@ -58,6 +58,54 @@ Auto-create recommended Spring Boot folder structure for a new project with a si
 - `README.md` - Project documentation (optional)
 - `.env.example` - Environment variables template (optional)
 
+### 🔗 JPA Relationship Generator (NEW!)
+
+Generate JPA relationship annotations with proper cascading and bidirectional support!
+
+**How it works:**
+
+1. **Spring Code Generator → Create JPA Relationship**
+2. Enter source entity class name (e.g., "User")
+3. Select relationship type:
+   - **OneToMany** - One parent, multiple children
+   - **ManyToOne** - Multiple parents, one child
+   - **ManyToMany** - Many-to-many association
+4. Enter relationship field name (e.g., "posts", "comments")
+5. Enter target entity name (e.g., "Post", "Comment")
+6. Choose bidirectional option (Yes/No)
+7. Select cascade options (PERSIST, REMOVE, MERGE, DETACH, REFRESH)
+8. Complete relationship code is generated! ✅
+
+**Generated code includes:**
+
+- Proper JPA annotations (`@OneToMany`, `@ManyToOne`, `@ManyToMany`)
+- Field declarations with generics (`List<T>`)
+- Getters and setters
+- Helper methods (add/remove for collections)
+- Bidirectional mappings when needed
+- Cascade configuration
+
+**Example Output:**
+
+```java
+@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+private List<Post> posts = new ArrayList<>();
+
+public List<Post> getPosts() {
+    return posts;
+}
+
+public void addPost(Post post) {
+    this.posts.add(post);
+    post.setUser(this);
+}
+
+public void removePost(Post post) {
+    this.posts.remove(post);
+    post.setUser(null);
+}
+```
+
 ### Core Components
 
 - **Controller** - REST controller with request mapping
@@ -148,6 +196,7 @@ Quickly generate Spring endpoint mappings using snippets:
 | ------------------------------- | ------------------------------------------------------------------------------ |
 | **Create Batch Module** ⭐      | Generate complete module (Entity, Repository, Service, Controller, DTOs, etc.) |
 | **Create Project Structure** ⭐ | Auto-create recommended folder structure for new Spring Boot projects          |
+| **Create JPA Relationship** ⭐  | Generate JPA relationship annotations with cascading and bidirectional support |
 | Create Controller               | Generate basic REST controller                                                 |
 | Create Controller With CRUD     | Generate controller with CRUD endpoints                                        |
 | Create Entity                   | Generate JPA entity                                                            |
@@ -167,7 +216,18 @@ Quickly generate Spring endpoint mappings using snippets:
 | Create Request DTO              | Generate HTTP request DTO                                                      |
 | Create Response DTO             | Generate HTTP response DTO                                                     |
 
-### Project Structure Configuration
+### JPA Relationship Configuration Options
+
+When creating a JPA relationship, you configure:
+
+| Option                | Description                             | Example                                  |
+| --------------------- | --------------------------------------- | ---------------------------------------- |
+| **Entity Class Name** | Source entity for the relationship      | "User", "Product", "Order"               |
+| **Relationship Type** | Type of JPA relationship                | OneToMany, ManyToOne, ManyToMany         |
+| **Field Name**        | Property name in the entity             | "posts", "comments", "users", "products" |
+| **Target Entity**     | Related entity class name               | "Post", "Comment", "User", "Product"     |
+| **Bidirectional**     | Whether to map the reverse side         | Yes/No                                   |
+| **Cascade Options**   | Operations to cascade (select multiple) | PERSIST, REMOVE, MERGE, DETACH, REFRESH  |
 
 The Project Structure Generator creates the following folders automatically:
 

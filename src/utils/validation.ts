@@ -10,9 +10,9 @@ export const isValidInput = (input: string | undefined): boolean => {
 /**
  * Gets class name input from user
  */
-export const getClassName = async (): Promise<string> => {
+export const getClassName = async (placeholder: string = "Enter class name"): Promise<string> => {
   const input = await vscode.window.showInputBox({
-    placeHolder: "Enter class name",
+    placeHolder: placeholder,
     validateInput: (value) =>
       !isValidInput(value) ? "Class name cannot be empty" : "",
   });
@@ -114,4 +114,71 @@ export const showErrorMessage = (message: string): void => {
  */
 export const showWarningMessage = (message: string): void => {
   vscode.window.showWarningMessage(message);
+};
+
+/**
+ * Gets relationship type from user
+ */
+export const getRelationshipType = async (): Promise<string> => {
+  const result = await vscode.window.showQuickPick(
+    ["OneToMany", "ManyToOne", "ManyToMany"],
+    {
+      placeHolder: "Select relationship type",
+    }
+  );
+  return result || "";
+};
+
+/**
+ * Gets relationship field name input from user
+ */
+export const getRelationshipName = async (placeholder: string = "Relationship field name"): Promise<string> => {
+  const input = await vscode.window.showInputBox({
+    placeHolder: placeholder,
+    validateInput: (value) =>
+      !isValidInput(value) ? "Relationship name cannot be empty" : "",
+  });
+  return input || "";
+};
+
+/**
+ * Gets target entity name input from user
+ */
+export const getTargetEntityName = async (placeholder: string = "Target entity name"): Promise<string> => {
+  const input = await vscode.window.showInputBox({
+    placeHolder: placeholder,
+    validateInput: (value) =>
+      !isValidInput(value) ? "Target entity name cannot be empty" : "",
+  });
+  return input || "";
+};
+
+/**
+ * Gets bidirectional option from user
+ */
+export const getBidirectionalOption = async (): Promise<boolean> => {
+  const result = await vscode.window.showQuickPick(["Yes", "No"], {
+    placeHolder: "Is this a bidirectional relationship?",
+  });
+  return result === "Yes";
+};
+
+/**
+ * Gets cascade options from user
+ */
+export const getCascadeOptions = async (): Promise<string[]> => {
+  const result = await vscode.window.showQuickPick(
+    [
+      { label: "PERSIST", picked: true, description: "Persist cascading" },
+      { label: "REMOVE", picked: false, description: "Remove cascading" },
+      { label: "MERGE", picked: false, description: "Merge cascading" },
+      { label: "DETACH", picked: false, description: "Detach cascading" },
+      { label: "REFRESH", picked: false, description: "Refresh cascading" },
+    ],
+    {
+      canPickMany: true,
+      placeHolder: "Select cascade options (use arrow keys and space to select)",
+    }
+  );
+  return result?.map((item: any) => item.label) || [];
 };

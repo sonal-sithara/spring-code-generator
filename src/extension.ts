@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { createFile } from "./generators/fileGenerator";
 import { createBatchModule } from "./generators/moduleGenerator";
 import { createProjectStructure } from "./generators/structureGenerator";
+import { createRelationship } from "./generators/relationshipGenerator";
 
 // Command definitions
 const COMMANDS = {
@@ -27,6 +28,7 @@ const COMMANDS = {
   CREATE_RESPONSE_DTO: "spring-code-generator.createResponseDto",
   CREATE_BATCH_MODULE: "spring-code-generator.createBatchModule",
   CREATE_PROJECT_STRUCTURE: "spring-code-generator.createProjectStructure",
+  CREATE_RELATIONSHIP: "spring-code-generator.createRelationship",
 } as const;
 
 // Template type mappings
@@ -137,6 +139,13 @@ function registerCommands(): vscode.Disposable[] {
   disposables.push(
     vscode.commands.registerCommand(COMMANDS.CREATE_PROJECT_STRUCTURE, async (folder) => {
       await createProjectStructure(folder);
+    })
+  );
+
+  // Register relationship command
+  disposables.push(
+    vscode.commands.registerCommand(COMMANDS.CREATE_RELATIONSHIP, async (folder) => {
+      await createRelationship();
     })
   );
 

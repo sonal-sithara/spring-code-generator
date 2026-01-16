@@ -40,3 +40,12 @@ export interface GeneratedFile {
   path: any; // vscode.Uri type
   content: string;
 }
+
+export interface RelationshipConfig {
+  className: string;
+  relationshipType: "OneToMany" | "ManyToOne" | "ManyToMany";
+  relationshipName: string;
+  targetEntity: string;
+  isBidirectional: boolean;
+  cascadeOptions: string[];
+}
