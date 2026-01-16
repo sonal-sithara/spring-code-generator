@@ -334,7 +334,7 @@ Quickly generate Spring endpoint mappings using snippets:
 | **Create Configuration Templates** ⭐ | Generate configuration classes (Database, Security, JWT, CORS)                 |
 | **Organize Project Files** ⭐         | Auto-organize files into proper folder structure                               |
 | **Analyze Project Structure** ⭐      | Analyze and report file distribution across folders                            |
-| **Create API Documentation** ⭐       | Generate Swagger/OpenAPI configuration                                        |
+| **Create API Documentation** ⭐       | Generate Swagger/OpenAPI configuration                                         |
 | Create Controller                     | Generate basic REST controller                                                 |
 | Create Controller With CRUD           | Generate controller with CRUD endpoints                                        |
 | Create Entity                         | Generate JPA entity                                                            |
