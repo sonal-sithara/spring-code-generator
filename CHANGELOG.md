@@ -2,7 +2,7 @@
 
 All notable changes to the "spring-code-generator" extension will be documented in this file.
 
-## [3.0.0] - 2026-01-17
+## [3.0.1] - 2026-01-17
 
 ### 🚀 Major Update: Advanced Features for Modern Spring Boot Development
 
