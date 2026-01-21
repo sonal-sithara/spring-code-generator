@@ -2,6 +2,13 @@
 
 All notable changes to the "spring-code-generator" extension will be documented in this file.
 
+## [3.0.3] - 2026-01-21
+
+### 🐛 Bug Fixes
+
+- Fixed an issue where `.java` extension was incorrectly applied to non-Java files (e.g., `.yml`, `.properties`).
+- Added proper extension handling for template types like `application-properties` and `application-yml`.
+
 ## [3.0.2] - 2026-01-21
 
 ### 🐛 Bug Fixes

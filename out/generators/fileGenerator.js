@@ -49,8 +49,17 @@ const getTemplateValues = async (type, className) => {
     }
     return baseValues;
 };
+const getFileExtension = (type) => {
+    if (type === "application-properties") {
+        return constants_1.PROPERTIES_EXTENSION;
+    }
+    if (type === "application-yml") {
+        return constants_1.YML_EXTENSION;
+    }
+    return constants_1.JAVA_EXTENSION;
+};
 /**
- * Generates and creates the Java file
+ * Generates and creates the file
  */
 const generateFile = async (uri, type, values) => {
     const packageName = (0, fileUtils_1.extractPackageName)(uri.path);
@@ -59,7 +68,8 @@ const generateFile = async (uri, type, values) => {
         ...values,
         packageName,
     });
-    const filePath = vscode.Uri.file(path.join(uri.path, `${values.className}${constants_1.JAVA_EXTENSION}`));
+    const extension = getFileExtension(type);
+    const filePath = vscode.Uri.file(path.join(uri.path, `${values.className}${extension}`));
     await (0, fileUtils_1.createFileInWorkspace)(filePath, fileContent);
     (0, validation_1.showInfoMessage)(`✅ Created file: ${values.className}`);
 };
