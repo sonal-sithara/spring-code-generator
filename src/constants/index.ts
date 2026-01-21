@@ -10,6 +10,8 @@ export const DATA_TYPE_PLACEHOLDER = "dataType";
 // File extensions
 export const TEMPLATE_EXTENSION = ".txt";
 export const JAVA_EXTENSION = ".java";
+export const PROPERTIES_EXTENSION = ".properties";
+export const YML_EXTENSION = ".yml";
 
 // Folder structure for project
 export const PROJECT_FOLDERS = [

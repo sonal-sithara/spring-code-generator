@@ -8,6 +8,8 @@ import {
   ENTITY_NAME_PLACEHOLDER,
   DATA_TYPE_PLACEHOLDER,
   JAVA_EXTENSION,
+  PROPERTIES_EXTENSION,
+  YML_EXTENSION,
 } from "../constants";
 import { TemplateValues } from "../types";
 import {
@@ -78,8 +80,18 @@ const getTemplateValues = async (
   return baseValues;
 };
 
+const getFileExtension = (type: string): string => {
+  if (type === "application-properties") {
+    return PROPERTIES_EXTENSION;
+  }
+  if (type === "application-yml") {
+    return YML_EXTENSION;
+  }
+  return JAVA_EXTENSION;
+};
+
 /**
- * Generates and creates the Java file
+ * Generates and creates the file
  */
 const generateFile = async (
   uri: vscode.Uri,
@@ -93,8 +105,9 @@ const generateFile = async (
     packageName,
   });
 
+  const extension = getFileExtension(type);
   const filePath = vscode.Uri.file(
-    path.join(uri.path, `${values.className}${JAVA_EXTENSION}`)
+    path.join(uri.path, `${values.className}${extension}`)
   );
 
   await createFileInWorkspace(filePath, fileContent);
