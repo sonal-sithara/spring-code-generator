@@ -32,7 +32,7 @@ exports.extractPackageName = extractPackageName;
  * Reads template file content
  */
 const readTemplate = (type) => {
-    const templatePath = path.join(__dirname, "../../../out/template", `${type}${constants_1.TEMPLATE_EXTENSION}`);
+    const templatePath = path.join(__dirname, "../template", `${type}${constants_1.TEMPLATE_EXTENSION}`);
     return fs.readFileSync(templatePath, "utf-8");
 };
 exports.readTemplate = readTemplate;

@@ -2,6 +2,12 @@
 
 All notable changes to the "spring-code-generator" extension will be documented in this file.
 
+## [3.0.2] - 2026-01-21
+
+### 🐛 Bug Fixes
+
+- Fixed `ENOENT` error when creating templates by correcting relative path resolution logic.
+
 ## [3.0.1] - 2026-01-17
 
 ### 🚀 Major Update: Advanced Features for Modern Spring Boot Development

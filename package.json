@@ -4,7 +4,7 @@
   "description": "A powerful VS Code extension for Spring Boot development. Generate controllers, services, entities, DTOs, repositories, and more. Now with advanced features: database migrations, API versioning, microservices components, event-driven architecture (Kafka/RabbitMQ), distributed caching, and scheduled tasks.",
   "icon": "image/logo.png",
   "publisher": "SonalSithara",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "repository": "https://github.com/sonal-sithara/spring-code-generator",
   "license": "MIT",
   "engines": {

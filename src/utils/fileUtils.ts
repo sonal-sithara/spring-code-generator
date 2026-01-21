@@ -36,7 +36,7 @@ export const extractPackageName = (folderPath: string): string => {
 export const readTemplate = (type: string): string => {
   const templatePath = path.join(
     __dirname,
-    "../../../out/template",
+    "../template",
     `${type}${TEMPLATE_EXTENSION}`
   );
   return fs.readFileSync(templatePath, "utf-8");
