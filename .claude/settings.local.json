@@ -1,8 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Skill(glm-plan-usage:usage-query-skill)"
+      "Skill(glm-plan-usage:usage-query-skill)",
+      "Bash(chmod +x /Users/sonalsithara/Projects/Personal/spring-code-generator/.claude/hooks/protect-out-dir.sh /Users/sonalsithara/Projects/Personal/spring-code-generator/.claude/hooks/lint-on-ts-edit.sh)",
+      "Bash(bash /Users/sonalsithara/Projects/Personal/spring-code-generator/.claude/hooks/protect-out-dir.sh)",
+      "Bash(echo \"exit=$?\")",
+      "Bash(echo \"template exit=$?\")",
+      "Bash(echo \"src exit=$?\")",
+      "Bash(claude mcp *)"
     ]
+  },
+  "enabledPlugins": {
+    "commit-commands@claude-plugins-official": true,
+    "claude-code-setup@claude-plugins-official": true
   },
   "outputStyle": "Coding Vibes"
 }
