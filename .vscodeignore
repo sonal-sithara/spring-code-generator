@@ -8,3 +8,11 @@ vsc-extension-quickstart.md
 **/.eslintrc.json
 **/*.map
 **/*.ts
+.claude/**
+AGENTS.md
+CLAUDE.md
+firebase-debug.log
+*.log
+.firebaserc
+firebase.json
+.gitattributes
