@@ -641,6 +641,29 @@ Quickly generate Spring endpoint mappings using snippets:
 | `sp-put`    | Generate PUT mapping     |
 | `sp-delete` | Generate DELETE mapping  |
 
+## Quick Entry Points
+
+Beyond the right-click context menu, every generator can also be reached through two faster entry points.
+
+### Quick Pick palette
+
+Press **`Ctrl+Alt+G`** (Windows/Linux) or **`Cmd+Alt+G`** (macOS) to open a searchable list of every generator, grouped by category. Type to filter, press Enter to run. Equivalent command: `Spring Code Generator: Generate...` from the command palette.
+
+When invoked this way, the extension prompts you to select the target folder before generating the file.
+
+### Sidebar panel
+
+Click the **Spring Generator** icon in the activity bar to open a tree view listing every generator grouped by category:
+
+- **Web Layer** — controllers
+- **Data Layer** — entities, repositories, DTOs, mappers
+- **Business Layer** — services, exceptions
+- **Configuration** — application properties, security, API docs
+- **Project & Structure** — project scaffolding, batch modules, organization
+- **Advanced** — migrations, microservices, caching, scheduled tasks
+
+Click any leaf to run the generator. As with the Quick Pick, you'll be prompted to select the target folder.
+
 ## Commands Reference
 
 ### Available Commands

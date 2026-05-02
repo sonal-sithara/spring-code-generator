@@ -12,6 +12,9 @@ import { createCustomQueryRepository, generateQuerySuggestions } from "./generat
 import { createMicroserviceComponent } from "./generators/microservicesGenerator";
 import { createEventDrivenComponent } from "./generators/eventDrivenGenerator";
 import { createCachingConfiguration, createScheduledTask } from "./generators/cachingSchedulingGenerator";
+import { openCommandQuickPick } from "./quickPick";
+import { pickTargetFolder } from "./utils/folderPicker";
+import { CommandsTreeProvider } from "./views/commandsTreeProvider";
 
 // Command definitions
 const COMMANDS = {
@@ -51,6 +54,9 @@ const COMMANDS = {
   CREATE_EVENT_DRIVEN_COMPONENT: "spring-code-generator.createEventDrivenComponent",
   CREATE_CACHING_CONFIG: "spring-code-generator.createCachingConfig",
   CREATE_SCHEDULED_TASK: "spring-code-generator.createScheduledTask",
+  // Discovery entry points
+  OPEN_QUICK_PICK: "spring-code-generator.openQuickPick",
+  RUN_WITH_FOLDER: "spring-code-generator.runWithFolder",
 } as const;
 
 // Template type mappings
@@ -83,6 +89,17 @@ export function activate(context: vscode.ExtensionContext): void {
 
   const disposables = registerCommands();
   context.subscriptions.push(...disposables);
+
+  // Sidebar tree view — lists every generator grouped by category. Clicking a
+  // leaf invokes runWithFolder, which prompts for a target folder and then
+  // dispatches to the underlying generator command.
+  const treeProvider = new CommandsTreeProvider();
+  context.subscriptions.push(
+    vscode.window.registerTreeDataProvider(
+      "springCodeGeneratorCommands",
+      treeProvider
+    )
+  );
 }
 
 /**
@@ -246,6 +263,27 @@ function registerCommands(): vscode.Disposable[] {
     vscode.commands.registerCommand(COMMANDS.CREATE_SCHEDULED_TASK, async (folder) => {
       await createScheduledTask(folder);
     })
+  );
+
+  // Quick Pick palette entry — searchable list of every generator.
+  disposables.push(
+    vscode.commands.registerCommand(COMMANDS.OPEN_QUICK_PICK, openCommandQuickPick)
+  );
+
+  // Internal dispatcher — invokes a target command after prompting for a folder.
+  // Used by the Quick Pick and the sidebar tree view, where no explorer URI is
+  // available. Existing right-click commands are unchanged.
+  disposables.push(
+    vscode.commands.registerCommand(
+      COMMANDS.RUN_WITH_FOLDER,
+      async (commandId: string) => {
+        const folder = await pickTargetFolder();
+        if (!folder) {
+          return;
+        }
+        await vscode.commands.executeCommand(commandId, folder);
+      }
+    )
   );
 
   return disposables;

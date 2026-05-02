@@ -2,6 +2,14 @@
 
 All notable changes to the "spring-code-generator" extension will be documented in this file.
 
+## [3.1.0] - 2026-05-02
+
+### ✨ New Features
+
+- Added **Quick Pick palette** — press `Ctrl+Alt+G` / `Cmd+Alt+G` (or run `Spring Code Generator: Generate...` from the command palette) to open a searchable list of every generator, grouped by category.
+- Added **Sidebar panel** — a new "Spring Generator" view in the activity bar lists every generator grouped by category. Click any entry to run it.
+- Added interactive folder selection when generators are invoked outside the right-click menu.
+
 ## [3.0.3] - 2026-01-21
 
 ### 🐛 Bug Fixes

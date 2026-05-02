@@ -4,7 +4,7 @@
   "description": "A powerful VS Code extension for Spring Boot development. Generate controllers, services, entities, DTOs, repositories, and more. Now with advanced features: database migrations, API versioning, microservices components, event-driven architecture (Kafka/RabbitMQ), distributed caching, and scheduled tasks.",
   "icon": "image/logo.png",
   "publisher": "SonalSithara",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "repository": "https://github.com/sonal-sithara/spring-code-generator",
   "license": "MIT",
   "engines": {
@@ -47,7 +47,9 @@
     "onCommand:spring-code-generator.createMicroserviceComponent",
     "onCommand:spring-code-generator.createEventDrivenComponent",
     "onCommand:spring-code-generator.createCachingConfig",
-    "onCommand:spring-code-generator.createScheduledTask"
+    "onCommand:spring-code-generator.createScheduledTask",
+    "onCommand:spring-code-generator.openQuickPick",
+    "onView:springCodeGeneratorCommands"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -216,9 +218,25 @@
         "command": "spring-code-generator.createScheduledTask",
         "title": "Create Scheduled Task",
         "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.openQuickPick",
+        "title": "Generate...",
+        "category": "Spring Code Generator"
+      },
+      {
+        "command": "spring-code-generator.runWithFolder",
+        "title": "Run Generator With Folder Selection",
+        "category": "Spring Code Generator"
       }
     ],
     "menus": {
+      "commandPalette": [
+        {
+          "command": "spring-code-generator.runWithFolder",
+          "when": "false"
+        }
+      ],
       "explorer/context": [
         {
           "submenu": "Spring Code Generator"
@@ -363,6 +381,37 @@
       {
         "label": "Spring Code Generator",
         "id": "Spring Code Generator"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "springCodeGenerator",
+          "title": "Spring Generator",
+          "icon": "media/spring-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "springCodeGenerator": [
+        {
+          "id": "springCodeGeneratorCommands",
+          "name": "Generators"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "springCodeGeneratorCommands",
+        "contents": "Open a folder or workspace to start generating Spring Boot code.\n[Open Folder](command:vscode.openFolder)",
+        "when": "workbenchState == empty"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "spring-code-generator.openQuickPick",
+        "key": "ctrl+alt+g",
+        "mac": "cmd+alt+g"
       }
     ],
     "snippets": [
