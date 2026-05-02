@@ -2,6 +2,10 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import { extractPackageName } from "../utils/fileUtils";
+import { requireFolderPath } from "../utils/validation";
+import { showForm } from "../forms/FormPanel";
+import { eventDrivenSchema } from "../forms/schemas/eventDrivenSchema";
+import { getOptionalString, getString, getStringOr } from "../forms/utils";
 
 export interface EventDrivenConfig {
   messagingType: "Kafka" | "RabbitMQ";
@@ -13,90 +17,32 @@ export interface EventDrivenConfig {
 
 export async function createEventDrivenComponent(uri: vscode.Uri | undefined) {
   try {
-    const folderPath = uri ? uri.fsPath : undefined;
-    
+    const folderPath = requireFolderPath(uri);
     if (!folderPath) {
-      vscode.window.showErrorMessage("Please select a folder first!");
       return;
     }
 
-    // Select messaging system
-    const messagingType = await vscode.window.showQuickPick(
-      [
-        { label: "Kafka", description: "Apache Kafka event streaming" },
-        { label: "RabbitMQ", description: "RabbitMQ message broker" },
-      ],
-      {
-        placeHolder: "Select messaging system",
-        ignoreFocusOut: true,
-      }
-    );
-
-    if (!messagingType) {
-      return;
-    }
-
-    // Select component type
-    const componentType = await vscode.window.showQuickPick(
-      [
-        { label: "Producer", description: "Sends messages/events" },
-        { label: "Consumer", description: "Receives messages/events" },
-        { label: "Both", description: "Producer and Consumer" },
-      ],
-      {
-        placeHolder: "Select component type",
-        ignoreFocusOut: true,
-      }
-    );
-
-    if (!componentType) {
+    const result = await showForm(eventDrivenSchema);
+    if (!result) {
       return;
     }
 
     const config: EventDrivenConfig = {
-      messagingType: messagingType.label as any,
-      componentType: componentType.label as any,
-      topicOrQueue: "",
+      messagingType: result.messagingType as "Kafka" | "RabbitMQ",
+      componentType: result.componentType as "Producer" | "Consumer" | "Both",
+      topicOrQueue: getString(result, "topicOrQueue"),
+      groupId: getOptionalString(result, "groupId"),
+      messageType: getStringOr(result, "messageType", "Message"),
     };
 
-    // Get topic/queue name
-    const topicLabel = messagingType.label === "Kafka" ? "topic" : "queue";
-    config.topicOrQueue = await vscode.window.showInputBox({
-      prompt: `Enter ${topicLabel} name`,
-      placeHolder: `user-events, order-notifications`,
-      ignoreFocusOut: true,
-    }) || "";
-
-    if (componentType.label === "Consumer" || componentType.label === "Both") {
-      config.groupId = await vscode.window.showInputBox({
-        prompt: "Enter consumer group ID",
-        placeHolder: "user-service-group",
-        ignoreFocusOut: true,
-      }) || "";
-    }
-
-    config.messageType = await vscode.window.showInputBox({
-      prompt: "Enter message/event class name",
-      placeHolder: "UserEvent, OrderMessage",
-      ignoreFocusOut: true,
-    }) || "Message";
-
-    // Generate components
     const files = generateEventDrivenComponents(config, folderPath);
-    
-    // Write files
+
     for (const file of files) {
       const filePath = path.join(folderPath, file.name);
-      const dir = path.dirname(filePath);
-      
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
       fs.writeFileSync(filePath, file.content);
     }
 
-    // Open first file
     if (files.length > 0) {
       const firstFilePath = path.join(folderPath, files[0].name);
       const document = await vscode.workspace.openTextDocument(firstFilePath);
@@ -104,7 +50,7 @@ export async function createEventDrivenComponent(uri: vscode.Uri | undefined) {
     }
 
     vscode.window.showInformationMessage(
-      `✅ ${messagingType.label} ${componentType.label} created with ${files.length} file(s)!`
+      `✅ ${config.messagingType} ${config.componentType} created with ${files.length} file(s)!`
     );
   } catch (error: any) {
     vscode.window.showErrorMessage(
@@ -136,7 +82,6 @@ function generateKafkaComponents(
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Message/Event class
   let messageContent = `package ${packageName};\n\n`;
   messageContent += `import java.time.LocalDateTime;\n`;
   messageContent += `import java.io.Serializable;\n\n`;
@@ -167,7 +112,6 @@ function generateKafkaComponents(
 
   files.push({ name: `${config.messageType}.java`, content: messageContent });
 
-  // Producer
   if (config.componentType === "Producer" || config.componentType === "Both") {
     let producerContent = `package ${packageName};\n\n`;
     producerContent += `import org.springframework.kafka.core.KafkaTemplate;\n`;
@@ -211,7 +155,6 @@ function generateKafkaComponents(
     files.push({ name: "KafkaProducerService.java", content: producerContent });
   }
 
-  // Consumer
   if (config.componentType === "Consumer" || config.componentType === "Both") {
     let consumerContent = `package ${packageName};\n\n`;
     consumerContent += `import org.springframework.kafka.annotation.KafkaListener;\n`;
@@ -258,7 +201,6 @@ function generateKafkaComponents(
     files.push({ name: "KafkaConsumerService.java", content: consumerContent });
   }
 
-  // Kafka Configuration
   let configContent = `package ${packageName};\n\n`;
   configContent += `import org.apache.kafka.clients.consumer.ConsumerConfig;\n`;
   configContent += `import org.apache.kafka.clients.producer.ProducerConfig;\n`;
@@ -282,7 +224,6 @@ function generateKafkaComponents(
   configContent += `    @Value("\${spring.kafka.bootstrap-servers:localhost:9092}")\n`;
   configContent += `    private String bootstrapServers;\n\n`;
 
-  // Producer Config
   configContent += `    @Bean\n`;
   configContent += `    public ProducerFactory<String, ${config.messageType}> producerFactory() {\n`;
   configContent += `        Map<String, Object> configProps = new HashMap<>();\n`;
@@ -297,7 +238,6 @@ function generateKafkaComponents(
   configContent += `        return new KafkaTemplate<>(producerFactory());\n`;
   configContent += `    }\n\n`;
 
-  // Consumer Config
   configContent += `    @Bean\n`;
   configContent += `    public ConsumerFactory<String, ${config.messageType}> consumerFactory() {\n`;
   configContent += `        Map<String, Object> configProps = new HashMap<>();\n`;
@@ -321,7 +261,6 @@ function generateKafkaComponents(
 
   files.push({ name: "KafkaConfig.java", content: configContent });
 
-  // application.yml
   let ymlContent = `# Kafka Configuration\n`;
   ymlContent += `spring:\n`;
   ymlContent += `  kafka:\n`;
@@ -350,7 +289,6 @@ function generateRabbitMQComponents(
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Message class (same as Kafka)
   let messageContent = `package ${packageName};\n\n`;
   messageContent += `import java.time.LocalDateTime;\n`;
   messageContent += `import java.io.Serializable;\n\n`;
@@ -381,7 +319,6 @@ function generateRabbitMQComponents(
 
   files.push({ name: `${config.messageType}.java`, content: messageContent });
 
-  // Producer
   if (config.componentType === "Producer" || config.componentType === "Both") {
     let producerContent = `package ${packageName};\n\n`;
     producerContent += `import org.springframework.amqp.rabbit.core.RabbitTemplate;\n`;
@@ -413,7 +350,6 @@ function generateRabbitMQComponents(
     files.push({ name: "RabbitMQProducerService.java", content: producerContent });
   }
 
-  // Consumer
   if (config.componentType === "Consumer" || config.componentType === "Both") {
     let consumerContent = `package ${packageName};\n\n`;
     consumerContent += `import org.springframework.amqp.rabbit.annotation.RabbitListener;\n`;
@@ -450,7 +386,6 @@ function generateRabbitMQComponents(
     files.push({ name: "RabbitMQConsumerService.java", content: consumerContent });
   }
 
-  // RabbitMQ Configuration
   let configContent = `package ${packageName};\n\n`;
   configContent += `import org.springframework.amqp.core.*;\n`;
   configContent += `import org.springframework.amqp.rabbit.connection.ConnectionFactory;\n`;
@@ -502,7 +437,6 @@ function generateRabbitMQComponents(
 
   files.push({ name: "RabbitMQConfig.java", content: configContent });
 
-  // application.yml
   let ymlContent = `# RabbitMQ Configuration\n`;
   ymlContent += `spring:\n`;
   ymlContent += `  rabbitmq:\n`;

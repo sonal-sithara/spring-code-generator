@@ -2,6 +2,11 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import { extractPackageName } from "../utils/fileUtils";
+import { requireFolderPath } from "../utils/validation";
+import { showForm } from "../forms/FormPanel";
+import { cachingSchema } from "../forms/schemas/cachingSchema";
+import { schedulingSchema } from "../forms/schemas/schedulingSchema";
+import { getBool, getString, getStringOr } from "../forms/utils";
 
 export interface CachingConfig {
   cacheProvider: "Redis" | "Caffeine" | "EhCache";
@@ -20,77 +25,34 @@ export interface SchedulingConfig {
 
 export async function createCachingConfiguration(uri: vscode.Uri | undefined) {
   try {
-    const folderPath = uri ? uri.fsPath : undefined;
-    
+    const folderPath = requireFolderPath(uri);
     if (!folderPath) {
-      vscode.window.showErrorMessage("Please select a folder first!");
       return;
     }
 
-    // Select cache provider
-    const cacheProvider = await vscode.window.showQuickPick(
-      [
-        { label: "Redis", description: "Distributed caching with Redis" },
-        { label: "Caffeine", description: "High-performance in-memory cache" },
-        { label: "EhCache", description: "Popular Java caching library" },
-      ],
-      {
-        placeHolder: "Select cache provider",
-        ignoreFocusOut: true,
-      }
-    );
-
-    if (!cacheProvider) {
+    const result = await showForm(cachingSchema);
+    if (!result) {
       return;
     }
 
+    const includeService = getBool(result, "includeService");
     const config: CachingConfig = {
-      cacheProvider: cacheProvider.label as any,
-      cacheName: "",
+      cacheProvider: result.cacheProvider as CachingConfig["cacheProvider"],
+      cacheName: getStringOr(result, "cacheName", "defaultCache"),
+      includeService,
+      entityName: includeService
+        ? getStringOr(result, "entityName", "Entity")
+        : undefined,
     };
 
-    // Get cache name
-    config.cacheName = await vscode.window.showInputBox({
-      prompt: "Enter cache name",
-      placeHolder: "users, products, orders",
-      ignoreFocusOut: true,
-    }) || "defaultCache";
-
-    // Ask if service example should be included
-    const includeService = await vscode.window.showQuickPick(
-      ["Yes", "No"],
-      {
-        placeHolder: "Include service example with caching?",
-        ignoreFocusOut: true,
-      }
-    );
-
-    config.includeService = includeService === "Yes";
-
-    if (config.includeService) {
-      config.entityName = await vscode.window.showInputBox({
-        prompt: "Enter entity name for service example",
-        placeHolder: "User, Product, Order",
-        ignoreFocusOut: true,
-      }) || "Entity";
-    }
-
-    // Generate files
     const files = generateCachingFiles(config, folderPath);
-    
-    // Write files
+
     for (const file of files) {
       const filePath = path.join(folderPath, file.name);
-      const dir = path.dirname(filePath);
-      
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
       fs.writeFileSync(filePath, file.content);
     }
 
-    // Open first file
     if (files.length > 0) {
       const firstFilePath = path.join(folderPath, files[0].name);
       const document = await vscode.workspace.openTextDocument(firstFilePath);
@@ -98,7 +60,7 @@ export async function createCachingConfiguration(uri: vscode.Uri | undefined) {
     }
 
     vscode.window.showInformationMessage(
-      `✅ ${cacheProvider.label} caching configuration created with ${files.length} file(s)!`
+      `✅ ${config.cacheProvider} caching configuration created with ${files.length} file(s)!`
     );
   } catch (error: any) {
     vscode.window.showErrorMessage(
@@ -109,95 +71,39 @@ export async function createCachingConfiguration(uri: vscode.Uri | undefined) {
 
 export async function createScheduledTask(uri: vscode.Uri | undefined) {
   try {
-    const folderPath = uri ? uri.fsPath : undefined;
-    
+    const folderPath = requireFolderPath(uri);
     if (!folderPath) {
-      vscode.window.showErrorMessage("Please select a folder first!");
       return;
     }
 
-    // Get task name
-    const taskName = await vscode.window.showInputBox({
-      prompt: "Enter task name",
-      placeHolder: "DataCleanup, ReportGeneration, EmailReminder",
-      ignoreFocusOut: true,
-    });
-
-    if (!taskName) {
+    const result = await showForm(schedulingSchema);
+    if (!result) {
       return;
     }
 
-    // Select scheduler type
-    const schedulerType = await vscode.window.showQuickPick(
-      [
-        { label: "Cron", description: "Cron expression for scheduling" },
-        { label: "FixedRate", description: "Fixed rate interval" },
-        { label: "FixedDelay", description: "Fixed delay between executions" },
-      ],
-      {
-        placeHolder: "Select scheduler type",
-        ignoreFocusOut: true,
-      }
-    );
-
-    if (!schedulerType) {
-      return;
-    }
-
+    const schedulerType = result.schedulerType as SchedulingConfig["schedulerType"];
     const config: SchedulingConfig = {
-      schedulerType: schedulerType.label as any,
-      taskName,
+      schedulerType,
+      taskName: getString(result, "taskName"),
     };
 
-    if (schedulerType.label === "Cron") {
-      // Show cron examples
-      const cronExample = await vscode.window.showQuickPick(
-        [
-          { label: "0 0 * * * *", description: "Every hour" },
-          { label: "0 0 0 * * *", description: "Every day at midnight" },
-          { label: "0 0 9 * * MON-FRI", description: "Weekdays at 9 AM" },
-          { label: "0 */15 * * * *", description: "Every 15 minutes" },
-          { label: "0 0 12 * * *", description: "Every day at noon" },
-          { label: "Custom", description: "Enter custom cron expression" },
-        ],
-        {
-          placeHolder: "Select cron expression or choose custom",
-          ignoreFocusOut: true,
-        }
-      );
-
-      if (cronExample?.label === "Custom") {
-        config.cronExpression = await vscode.window.showInputBox({
-          prompt: "Enter cron expression",
-          placeHolder: "0 0 12 * * *",
-          ignoreFocusOut: true,
-        }) || "0 0 12 * * *";
-      } else {
-        config.cronExpression = cronExample?.label || "0 0 12 * * *";
-      }
-    } else if (schedulerType.label === "FixedRate") {
-      config.fixedRate = await vscode.window.showInputBox({
-        prompt: "Enter fixed rate (in milliseconds)",
-        placeHolder: "5000 (5 seconds)",
-        ignoreFocusOut: true,
-      }) || "60000";
+    if (schedulerType === "Cron") {
+      const preset = getStringOr(result, "cronPreset", "0 0 12 * * *");
+      config.cronExpression = preset === "Custom"
+        ? getStringOr(result, "cronExpression", "0 0 12 * * *")
+        : preset;
+    } else if (schedulerType === "FixedRate") {
+      config.fixedRate = getStringOr(result, "fixedRate", "60000");
     } else {
-      config.fixedDelay = await vscode.window.showInputBox({
-        prompt: "Enter fixed delay (in milliseconds)",
-        placeHolder: "5000 (5 seconds)",
-        ignoreFocusOut: true,
-      }) || "60000";
+      config.fixedDelay = getStringOr(result, "fixedDelay", "60000");
     }
 
-    // Generate file
     const content = generateScheduledTaskFile(config, folderPath);
-    const fileName = `${taskName}Task.java`;
+    const fileName = `${config.taskName}Task.java`;
     const filePath = path.join(folderPath, fileName);
-    
-    // Write file
+
     fs.writeFileSync(filePath, content);
 
-    // Open the file
     const document = await vscode.workspace.openTextDocument(filePath);
     await vscode.window.showTextDocument(document);
 
@@ -239,7 +145,6 @@ function generateRedisCache(
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Redis Configuration
   let configContent = `package ${packageName};\n\n`;
   configContent += `import org.springframework.cache.annotation.EnableCaching;\n`;
   configContent += `import org.springframework.context.annotation.Bean;\n`;
@@ -298,13 +203,11 @@ function generateRedisCache(
 
   files.push({ name: "RedisConfig.java", content: configContent });
 
-  // Service with caching
   if (config.includeService && config.entityName) {
     const serviceContent = generateCachedService(config, packageName);
     files.push({ name: `${config.entityName}CachedService.java`, content: serviceContent });
   }
 
-  // application.yml
   let ymlContent = `# Redis Configuration\n`;
   ymlContent += `spring:\n`;
   ymlContent += `  redis:\n`;
@@ -336,7 +239,6 @@ function generateCaffeineCache(
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Caffeine Configuration
   let configContent = `package ${packageName};\n\n`;
   configContent += `import com.github.benmanes.caffeine.cache.Caffeine;\n`;
   configContent += `import org.springframework.cache.CacheManager;\n`;
@@ -382,7 +284,6 @@ function generateCaffeineCache(
 
   files.push({ name: "CaffeineConfig.java", content: configContent });
 
-  // Service with caching
   if (config.includeService && config.entityName) {
     const serviceContent = generateCachedService(config, packageName);
     files.push({ name: `${config.entityName}CachedService.java`, content: serviceContent });
@@ -398,7 +299,6 @@ function generateEhCache(
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // EhCache Configuration
   let configContent = `package ${packageName};\n\n`;
   configContent += `import org.springframework.cache.annotation.EnableCaching;\n`;
   configContent += `import org.springframework.context.annotation.Configuration;\n\n`;
@@ -430,7 +330,6 @@ function generateEhCache(
 
   files.push({ name: "EhCacheConfig.java", content: configContent });
 
-  // ehcache.xml
   let xmlContent = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   xmlContent += `<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n`;
   xmlContent += `        xmlns="http://www.ehcache.org/v3"\n`;
@@ -449,7 +348,6 @@ function generateEhCache(
 
   files.push({ name: "ehcache.xml", content: xmlContent });
 
-  // Service with caching
   if (config.includeService && config.entityName) {
     const serviceContent = generateCachedService(config, packageName);
     files.push({ name: `${config.entityName}CachedService.java`, content: serviceContent });
@@ -475,19 +373,16 @@ function generateCachedService(config: CachingConfig, packageName: string): stri
   content += ` */\n`;
   content += `@Service\n`;
   content += `public class ${entityName}CachedService {\n\n`;
-  
-  // Get with cache
+
   content += `    /**\n`;
   content += `     * Get ${entityVar} by ID - cached\n`;
   content += `     */\n`;
   content += `    @Cacheable(value = "${config.cacheName}", key = "#id")\n`;
   content += `    public ${entityName} get${entityName}ById(Long id) {\n`;
   content += `        // TODO: Implement database query\n`;
-  content += `        // Simulating expensive operation\n`;
   content += `        return new ${entityName}();\n`;
   content += `    }\n\n`;
-  
-  // Get all with cache
+
   content += `    /**\n`;
   content += `     * Get all ${entityVar}s - cached\n`;
   content += `     */\n`;
@@ -496,8 +391,7 @@ function generateCachedService(config: CachingConfig, packageName: string): stri
   content += `        // TODO: Implement database query\n`;
   content += `        return List.of();\n`;
   content += `    }\n\n`;
-  
-  // Update cache
+
   content += `    /**\n`;
   content += `     * Update ${entityVar} - updates cache\n`;
   content += `     */\n`;
@@ -506,8 +400,7 @@ function generateCachedService(config: CachingConfig, packageName: string): stri
   content += `        // TODO: Implement database update\n`;
   content += `        return ${entityVar};\n`;
   content += `    }\n\n`;
-  
-  // Evict cache
+
   content += `    /**\n`;
   content += `     * Delete ${entityVar} - evicts from cache\n`;
   content += `     */\n`;
@@ -515,14 +408,12 @@ function generateCachedService(config: CachingConfig, packageName: string): stri
   content += `    public void delete${entityName}(Long id) {\n`;
   content += `        // TODO: Implement database delete\n`;
   content += `    }\n\n`;
-  
-  // Clear all cache
+
   content += `    /**\n`;
   content += `     * Clear all cache\n`;
   content += `     */\n`;
   content += `    @CacheEvict(value = "${config.cacheName}", allEntries = true)\n`;
   content += `    public void clearCache() {\n`;
-  content += `        // Cache cleared\n`;
   content += `    }\n`;
   content += `}\n`;
 
@@ -554,7 +445,6 @@ function generateScheduledTaskFile(
   content += `public class ${config.taskName}Task {\n\n`;
   content += `    private static final Logger logger = LoggerFactory.getLogger(${config.taskName}Task.class);\n\n`;
 
-  // Generate annotation based on scheduler type
   if (config.schedulerType === "Cron") {
     content += `    @Scheduled(cron = "${config.cronExpression}")\n`;
   } else if (config.schedulerType === "FixedRate") {
@@ -575,7 +465,6 @@ function generateScheduledTaskFile(
   content += `    }\n\n`;
   
   content += `    private void performTask() {\n`;
-  content += `        // Implement your task logic\n`;
   content += `        logger.debug("Executing ${config.taskName}...");\n`;
   content += `    }\n`;
   content += `}\n`;

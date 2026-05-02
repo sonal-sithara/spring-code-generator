@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
-import { getProjectName, showYesNoChoice } from "../utils/validation";
 import { ApiDocumentationConfig } from "../types";
+import { showForm } from "../forms/FormPanel";
+import { apiDocumentationSchema } from "../forms/schemas/apiDocumentationSchema";
+import { getBool, getString, getStringOr } from "../forms/utils";
 
 /**
  * API Documentation Generator - Create Swagger/OpenAPI configuration
@@ -14,28 +16,22 @@ export async function createApiDocumentation(): Promise<void> {
       return;
     }
 
-    // Get project information
-    const projectName = await getProjectName();
-    if (!projectName) {
+    const result = await showForm(apiDocumentationSchema);
+    if (!result) {
       return;
     }
 
-    const projectDescription = await vscode.window.showInputBox({
-      placeHolder: "Enter project description (optional)",
-      value: `API for ${projectName}`,
-    });
-
-    const includeSecurityScheme = await showYesNoChoice(
-      "Include JWT Security Scheme?"
-    );
-
+    const projectName = getString(result, "projectName");
     const config: ApiDocumentationConfig = {
       projectName,
-      projectDescription: projectDescription || `API for ${projectName}`,
-      includeSecurityScheme,
+      projectDescription: getStringOr(
+        result,
+        "projectDescription",
+        `API for ${projectName}`
+      ),
+      includeSecurityScheme: getBool(result, "includeSecurityScheme"),
     };
 
-    // Generate documentation files
     await generateApiDocumentationFiles(workspaceFolder, config);
 
     vscode.window.showInformationMessage(
@@ -57,7 +53,6 @@ async function generateApiDocumentationFiles(
   workspaceFolder: vscode.WorkspaceFolder,
   config: ApiDocumentationConfig
 ): Promise<void> {
-  // Generate OpenAPI Configuration file
   const configContent = generateOpenApiConfig(config);
   const configUri = vscode.Uri.joinPath(
     workspaceFolder.uri,
@@ -68,7 +63,6 @@ async function generateApiDocumentationFiles(
     "OpenApiConfig.java"
   );
 
-  // Create config folder if needed
   const configFolderUri = vscode.Uri.joinPath(
     workspaceFolder.uri,
     "src",
@@ -84,7 +78,6 @@ async function generateApiDocumentationFiles(
 
   await vscode.workspace.fs.writeFile(configUri, Buffer.from(configContent));
 
-  // Generate Maven dependency file (pom.xml snippet)
   const pomContent = generatePomDependencies();
   const pomUri = vscode.Uri.joinPath(
     workspaceFolder.uri,
@@ -92,7 +85,6 @@ async function generateApiDocumentationFiles(
   );
   await vscode.workspace.fs.writeFile(pomUri, Buffer.from(pomContent));
 
-  // Generate application.yml configuration
   const applicationYmlContent = generateApplicationYmlConfig();
   const applicationYmlUri = vscode.Uri.joinPath(
     workspaceFolder.uri,
@@ -102,7 +94,6 @@ async function generateApiDocumentationFiles(
     "swagger-config.yml"
   );
 
-  // Create resources folder if needed
   const resourcesFolderUri = vscode.Uri.joinPath(
     workspaceFolder.uri,
     "src",

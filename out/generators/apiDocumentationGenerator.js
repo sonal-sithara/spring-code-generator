@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateEndpointDocumentation = exports.createApiDocumentation = void 0;
 const vscode = require("vscode");
-const validation_1 = require("../utils/validation");
+const FormPanel_1 = require("../forms/FormPanel");
+const apiDocumentationSchema_1 = require("../forms/schemas/apiDocumentationSchema");
+const utils_1 = require("../forms/utils");
 /**
  * API Documentation Generator - Create Swagger/OpenAPI configuration
  * Generates configuration for API documentation with Spring Doc OpenAPI
@@ -14,22 +16,16 @@ async function createApiDocumentation() {
             vscode.window.showErrorMessage("No workspace folder found");
             return;
         }
-        // Get project information
-        const projectName = await (0, validation_1.getProjectName)();
-        if (!projectName) {
+        const result = await (0, FormPanel_1.showForm)(apiDocumentationSchema_1.apiDocumentationSchema);
+        if (!result) {
             return;
         }
-        const projectDescription = await vscode.window.showInputBox({
-            placeHolder: "Enter project description (optional)",
-            value: `API for ${projectName}`,
-        });
-        const includeSecurityScheme = await (0, validation_1.showYesNoChoice)("Include JWT Security Scheme?");
+        const projectName = (0, utils_1.getString)(result, "projectName");
         const config = {
             projectName,
-            projectDescription: projectDescription || `API for ${projectName}`,
-            includeSecurityScheme,
+            projectDescription: (0, utils_1.getStringOr)(result, "projectDescription", `API for ${projectName}`),
+            includeSecurityScheme: (0, utils_1.getBool)(result, "includeSecurityScheme"),
         };
-        // Generate documentation files
         await generateApiDocumentationFiles(workspaceFolder, config);
         vscode.window.showInformationMessage(`✓ API Documentation configuration created for ${projectName}`);
     }
@@ -42,10 +38,8 @@ exports.createApiDocumentation = createApiDocumentation;
  * Generate API documentation files
  */
 async function generateApiDocumentationFiles(workspaceFolder, config) {
-    // Generate OpenAPI Configuration file
     const configContent = generateOpenApiConfig(config);
     const configUri = vscode.Uri.joinPath(workspaceFolder.uri, "src", "main", "java", "config", "OpenApiConfig.java");
-    // Create config folder if needed
     const configFolderUri = vscode.Uri.joinPath(workspaceFolder.uri, "src", "main", "java", "config");
     try {
         await vscode.workspace.fs.stat(configFolderUri);
@@ -54,14 +48,11 @@ async function generateApiDocumentationFiles(workspaceFolder, config) {
         await vscode.workspace.fs.createDirectory(configFolderUri);
     }
     await vscode.workspace.fs.writeFile(configUri, Buffer.from(configContent));
-    // Generate Maven dependency file (pom.xml snippet)
     const pomContent = generatePomDependencies();
     const pomUri = vscode.Uri.joinPath(workspaceFolder.uri, "SPRINGDOC_OPENAPI_DEPENDENCIES.txt");
     await vscode.workspace.fs.writeFile(pomUri, Buffer.from(pomContent));
-    // Generate application.yml configuration
     const applicationYmlContent = generateApplicationYmlConfig();
     const applicationYmlUri = vscode.Uri.joinPath(workspaceFolder.uri, "src", "main", "resources", "swagger-config.yml");
-    // Create resources folder if needed
     const resourcesFolderUri = vscode.Uri.joinPath(workspaceFolder.uri, "src", "main", "resources");
     try {
         await vscode.workspace.fs.stat(resourcesFolderUri);

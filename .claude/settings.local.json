@@ -9,7 +9,8 @@
       "Bash(echo \"src exit=$?\")",
       "Bash(claude mcp *)",
       "Bash(yarn run *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(bash /Users/sonalsithara/Projects/Personal/spring-code-generator/.claude/hooks/lint-on-ts-edit.sh)"
     ]
   },
   "enabledPlugins": {

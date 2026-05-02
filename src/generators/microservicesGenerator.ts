@@ -2,6 +2,10 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import { extractPackageName } from "../utils/fileUtils";
+import { requireFolderPath } from "../utils/validation";
+import { showForm } from "../forms/FormPanel";
+import { microservicesSchema } from "../forms/schemas/microservicesSchema";
+import { getBool, getOptionalString } from "../forms/utils";
 
 export interface MicroserviceComponentConfig {
   componentType: "FeignClient" | "ServiceDiscovery" | "ConfigClient" | "CircuitBreaker" | "ApiGateway";
@@ -12,79 +16,39 @@ export interface MicroserviceComponentConfig {
 
 export async function createMicroserviceComponent(uri: vscode.Uri | undefined) {
   try {
-    const folderPath = uri ? uri.fsPath : undefined;
-    
+    const folderPath = requireFolderPath(uri);
     if (!folderPath) {
-      vscode.window.showErrorMessage("Please select a folder first!");
       return;
     }
 
-    // Select component type
-    const componentType = await vscode.window.showQuickPick(
-      [
-        { label: "FeignClient", description: "REST client for inter-service communication" },
-        { label: "ServiceDiscovery", description: "Eureka server configuration" },
-        { label: "ConfigClient", description: "Spring Cloud Config client setup" },
-        { label: "CircuitBreaker", description: "Resilience4j circuit breaker" },
-        { label: "ApiGateway", description: "Spring Cloud Gateway configuration" },
-      ],
-      {
-        placeHolder: "Select microservice component type",
-        ignoreFocusOut: true,
-      }
-    );
-
-    if (!componentType) {
+    const result = await showForm(microservicesSchema);
+    if (!result) {
       return;
     }
+
+    const componentType = result.componentType as MicroserviceComponentConfig["componentType"];
+    const isFeign = componentType === "FeignClient";
+    const serviceName = isFeign ? getOptionalString(result, "serviceName") : undefined;
+    const serviceUrl = isFeign ? getOptionalString(result, "serviceUrl") : undefined;
+    const fallbackClass = isFeign && serviceName && getBool(result, "includeFallback")
+      ? `${serviceName}Fallback`
+      : undefined;
 
     const config: MicroserviceComponentConfig = {
-      componentType: componentType.label as any,
+      componentType,
+      serviceName,
+      serviceUrl,
+      fallbackClass,
     };
 
-    // Get additional info based on component type
-    if (componentType.label === "FeignClient") {
-      config.serviceName = await vscode.window.showInputBox({
-        prompt: "Enter service name (target microservice)",
-        placeHolder: "user-service, product-service",
-        ignoreFocusOut: true,
-      });
-
-      config.serviceUrl = await vscode.window.showInputBox({
-        prompt: "Enter service URL (optional, for direct URL)",
-        placeHolder: "http://localhost:8081",
-        ignoreFocusOut: true,
-      });
-
-      const includeFallback = await vscode.window.showQuickPick(
-        ["No", "Yes"],
-        {
-          placeHolder: "Include fallback class for circuit breaker?",
-          ignoreFocusOut: true,
-        }
-      );
-
-      if (includeFallback === "Yes") {
-        config.fallbackClass = `${config.serviceName}Fallback`;
-      }
-    }
-
-    // Generate component
     const files = generateMicroserviceComponent(config, folderPath);
-    
-    // Write files
+
     for (const file of files) {
       const filePath = path.join(folderPath, file.name);
-      const dir = path.dirname(filePath);
-      
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
       fs.writeFileSync(filePath, file.content);
     }
 
-    // Open first file
     if (files.length > 0) {
       const firstFilePath = path.join(folderPath, files[0].name);
       const document = await vscode.workspace.openTextDocument(firstFilePath);
@@ -92,7 +56,7 @@ export async function createMicroserviceComponent(uri: vscode.Uri | undefined) {
     }
 
     vscode.window.showInformationMessage(
-      `✅ ${componentType.label} component created with ${files.length} file(s)!`
+      `✅ ${componentType} component created with ${files.length} file(s)!`
     );
   } catch (error: any) {
     vscode.window.showErrorMessage(
@@ -139,7 +103,6 @@ function generateFeignClient(
 
   const files: GeneratedFile[] = [];
 
-  // Feign Client Interface
   let clientContent = `package ${packageName};\n\n`;
   clientContent += `import org.springframework.cloud.openfeign.FeignClient;\n`;
   clientContent += `import org.springframework.web.bind.annotation.*;\n`;
@@ -175,7 +138,6 @@ function generateFeignClient(
 
   files.push({ name: `${className}.java`, content: clientContent });
 
-  // Fallback Implementation
   if (config.fallbackClass) {
     let fallbackContent = `package ${packageName};\n\n`;
     fallbackContent += `import org.springframework.stereotype.Component;\n`;
@@ -213,7 +175,6 @@ function generateFeignClient(
     files.push({ name: `${config.fallbackClass}.java`, content: fallbackContent });
   }
 
-  // Configuration class
   let configContent = `package ${packageName};\n\n`;
   configContent += `import org.springframework.cloud.openfeign.EnableFeignClients;\n`;
   configContent += `import org.springframework.context.annotation.Configuration;\n\n`;
@@ -237,7 +198,6 @@ function generateServiceDiscovery(folderPath: string): GeneratedFile[] {
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Eureka Server Configuration
   let content = `package ${packageName};\n\n`;
   content += `import org.springframework.boot.SpringApplication;\n`;
   content += `import org.springframework.boot.autoconfigure.SpringBootApplication;\n`;
@@ -270,7 +230,6 @@ function generateServiceDiscovery(folderPath: string): GeneratedFile[] {
 
   files.push({ name: "EurekaServerApplication.java", content });
 
-  // application.yml template
   let ymlContent = `# Eureka Server Configuration\n`;
   ymlContent += `server:\n`;
   ymlContent += `  port: 8761\n\n`;
@@ -295,7 +254,6 @@ function generateConfigClient(folderPath: string): GeneratedFile[] {
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Config Client Setup
   let content = `package ${packageName};\n\n`;
   content += `import org.springframework.beans.factory.annotation.Value;\n`;
   content += `import org.springframework.cloud.context.config.annotation.RefreshScope;\n`;
@@ -329,7 +287,6 @@ function generateConfigClient(folderPath: string): GeneratedFile[] {
 
   files.push({ name: "ConfigClientConfig.java", content });
 
-  // bootstrap.yml template
   let ymlContent = `# Spring Cloud Config Client Configuration\n`;
   ymlContent += `spring:\n`;
   ymlContent += `  application:\n`;
@@ -356,7 +313,6 @@ function generateCircuitBreaker(
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Circuit Breaker Service Example
   let content = `package ${packageName};\n\n`;
   content += `import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;\n`;
   content += `import io.github.resilience4j.retry.annotation.Retry;\n`;
@@ -396,7 +352,6 @@ function generateCircuitBreaker(
 
   files.push({ name: "ResilientService.java", content });
 
-  // application.yml configuration
   let ymlContent = `# Resilience4j Configuration\n`;
   ymlContent += `resilience4j:\n`;
   ymlContent += `  circuitbreaker:\n`;
@@ -435,7 +390,6 @@ function generateApiGateway(folderPath: string): GeneratedFile[] {
   const packageName = extractPackageName(folderPath);
   const files: GeneratedFile[] = [];
 
-  // Gateway Configuration
   let content = `package ${packageName};\n\n`;
   content += `import org.springframework.cloud.gateway.route.RouteLocator;\n`;
   content += `import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;\n`;
@@ -477,7 +431,6 @@ function generateApiGateway(folderPath: string): GeneratedFile[] {
 
   files.push({ name: "GatewayConfig.java", content });
 
-  // application.yml
   let ymlContent = `# Spring Cloud Gateway Configuration\n`;
   ymlContent += `server:\n`;
   ymlContent += `  port: 8080\n\n`;

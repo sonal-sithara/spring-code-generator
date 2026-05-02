@@ -1,6 +1,11 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
+import { requireFolderPath } from "../utils/validation";
+import { showForm } from "../forms/FormPanel";
+import { migrationSchema } from "../forms/schemas/migrationSchema";
+import { FormResult } from "../forms/types";
+import { getBool, getList, getOptionalString, getString } from "../forms/utils";
 
 export interface MigrationConfig {
   migrationTool: "Flyway" | "Liquibase";
@@ -15,123 +20,37 @@ export interface MigrationConfig {
 
 export async function createDatabaseMigration(uri: vscode.Uri | undefined) {
   try {
-    const folderPath = uri ? uri.fsPath : undefined;
-    
+    const folderPath = requireFolderPath(uri);
     if (!folderPath) {
-      vscode.window.showErrorMessage("Please select a folder first!");
       return;
     }
 
-    // Ask for migration tool
-    const migrationTool = await vscode.window.showQuickPick(
-      ["Flyway", "Liquibase"],
-      {
-        placeHolder: "Select migration tool",
-        ignoreFocusOut: true,
-      }
-    );
-
-    if (!migrationTool) {
+    const result = await showForm(migrationSchema);
+    if (!result) {
       return;
     }
 
-    // Ask for migration action
-    const action = await vscode.window.showQuickPick(
-      ["CreateTable", "AddColumn", "DropColumn", "AddIndex", "DropTable"],
-      {
-        placeHolder: "Select migration action",
-        ignoreFocusOut: true,
-      }
-    );
+    const config = formResultToMigrationConfig(result);
 
-    if (!action) {
-      return;
-    }
-
-    const config: MigrationConfig = {
-      migrationTool: migrationTool as "Flyway" | "Liquibase",
-      action: action as any,
-      tableName: "",
-    };
-
-    // Get table name
-    const tableName = await vscode.window.showInputBox({
-      prompt: "Enter table name",
-      placeHolder: "users",
-      ignoreFocusOut: true,
-    });
-
-    if (!tableName) {
-      return;
-    }
-
-    config.tableName = tableName;
-
-    // Handle different actions
-    if (action === "CreateTable") {
-      config.columns = await collectColumns();
-    } else if (action === "AddColumn") {
-      const columnName = await vscode.window.showInputBox({
-        prompt: "Enter column name",
-        placeHolder: "email",
-        ignoreFocusOut: true,
-      });
-
-      const columnType = await vscode.window.showInputBox({
-        prompt: "Enter column type",
-        placeHolder: "VARCHAR(255)",
-        ignoreFocusOut: true,
-      });
-
-      if (columnName && columnType) {
-        config.columnName = columnName;
-        config.columnType = columnType;
-      }
-    } else if (action === "AddIndex") {
-      const indexName = await vscode.window.showInputBox({
-        prompt: "Enter index name",
-        placeHolder: "idx_user_email",
-        ignoreFocusOut: true,
-      });
-
-      const indexColumns = await vscode.window.showInputBox({
-        prompt: "Enter index columns (comma-separated)",
-        placeHolder: "email, username",
-        ignoreFocusOut: true,
-      });
-
-      if (indexName && indexColumns) {
-        config.indexName = indexName;
-        config.indexColumns = indexColumns.split(",").map(c => c.trim());
-      }
-    }
-
-    // Generate migration file
     const migrationContent = generateMigrationContent(config);
     const timestamp = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
-    
+
     let fileName: string;
     let migrationPath: string;
 
     if (config.migrationTool === "Flyway") {
-      fileName = `V${timestamp}__${action}_${tableName}.sql`;
+      fileName = `V${timestamp}__${config.action}_${config.tableName}.sql`;
       migrationPath = path.join(folderPath, "db", "migration");
     } else {
-      fileName = `${timestamp}-${action}-${tableName}.xml`;
+      fileName = `${timestamp}-${config.action}-${config.tableName}.xml`;
       migrationPath = path.join(folderPath, "db", "changelog");
     }
 
-    // Create directories if they don't exist
-    if (!fs.existsSync(migrationPath)) {
-      fs.mkdirSync(migrationPath, { recursive: true });
-    }
+    fs.mkdirSync(migrationPath, { recursive: true });
 
     const filePath = path.join(migrationPath, fileName);
-    
-    // Write file
     fs.writeFileSync(filePath, migrationContent);
 
-    // Open the file
     const document = await vscode.workspace.openTextDocument(filePath);
     await vscode.window.showTextDocument(document);
 
@@ -145,53 +64,30 @@ export async function createDatabaseMigration(uri: vscode.Uri | undefined) {
   }
 }
 
-async function collectColumns(): Promise<Array<{ name: string; type: string; nullable: boolean; defaultValue?: string }>> {
-  const columns: Array<{ name: string; type: string; nullable: boolean; defaultValue?: string }> = [];
-  
-  while (true) {
-    const columnName = await vscode.window.showInputBox({
-      prompt: "Enter column name (leave empty to finish)",
-      placeHolder: "id, username, email",
-      ignoreFocusOut: true,
-    });
+function formResultToMigrationConfig(result: FormResult): MigrationConfig {
+  const columns = getList(result, "columns")
+    .map((c) => ({
+      name: getString(c, "name"),
+      type: getString(c, "type"),
+      nullable: getBool(c, "nullable"),
+      defaultValue: getOptionalString(c, "defaultValue"),
+    }))
+    .filter((c) => c.name && c.type);
 
-    if (!columnName) {
-      break;
-    }
+  const indexColumnsRaw = getString(result, "indexColumns");
 
-    const columnType = await vscode.window.showInputBox({
-      prompt: `Enter type for column '${columnName}'`,
-      placeHolder: "BIGINT, VARCHAR(255), BOOLEAN, etc.",
-      ignoreFocusOut: true,
-    });
-
-    if (!columnType) {
-      continue;
-    }
-
-    const nullable = await vscode.window.showQuickPick(
-      ["No", "Yes"],
-      {
-        placeHolder: "Is column nullable?",
-        ignoreFocusOut: true,
-      }
-    );
-
-    const defaultValue = await vscode.window.showInputBox({
-      prompt: "Enter default value (leave empty for none)",
-      placeHolder: "0, '', NULL",
-      ignoreFocusOut: true,
-    });
-
-    columns.push({
-      name: columnName,
-      type: columnType,
-      nullable: nullable === "Yes",
-      defaultValue: defaultValue || undefined,
-    });
-  }
-
-  return columns;
+  return {
+    migrationTool: result.migrationTool as "Flyway" | "Liquibase",
+    action: result.action as MigrationConfig["action"],
+    tableName: getString(result, "tableName"),
+    columns: columns.length > 0 ? columns : undefined,
+    columnName: getOptionalString(result, "columnName"),
+    columnType: getOptionalString(result, "columnType"),
+    indexName: getOptionalString(result, "indexName"),
+    indexColumns: indexColumnsRaw
+      ? indexColumnsRaw.split(",").map((c) => c.trim()).filter((c) => c.length > 0)
+      : undefined,
+  };
 }
 
 function generateMigrationContent(config: MigrationConfig): string {

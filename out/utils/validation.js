@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.showYesNoChoice = exports.getConfigurationTypes = exports.getCascadeOptions = exports.getBidirectionalOption = exports.getTargetEntityName = exports.getRelationshipName = exports.getRelationshipType = exports.showWarningMessage = exports.showErrorMessage = exports.showInfoMessage = exports.showQuickPick = exports.getInterfaceName = exports.getEntityName = exports.getDataType = exports.getProjectName = exports.getModuleName = exports.getClassName = exports.isValidInput = void 0;
+exports.requireFolderPath = exports.getConfigurationTypes = exports.getCascadeOptions = exports.getBidirectionalOption = exports.getTargetEntityName = exports.getRelationshipName = exports.getRelationshipType = exports.showWarningMessage = exports.showErrorMessage = exports.showInfoMessage = exports.showQuickPick = exports.getInterfaceName = exports.getEntityName = exports.getDataType = exports.getProjectName = exports.getModuleName = exports.getClassName = exports.isValidInput = void 0;
 const vscode = require("vscode");
 /**
  * Validates if input is not empty or null
@@ -184,13 +184,16 @@ const getConfigurationTypes = async () => {
 };
 exports.getConfigurationTypes = getConfigurationTypes;
 /**
- * Gets yes/no choice from user
+ * Resolves a folder path from a Uri, showing an error if absent.
+ * Returns undefined if the user invoked the command without a folder context.
  */
-const showYesNoChoice = async (question) => {
-    const result = await vscode.window.showQuickPick(["Yes", "No"], {
-        placeHolder: question,
-    });
-    return result === "Yes";
+const requireFolderPath = (uri) => {
+    const folderPath = uri?.fsPath;
+    if (!folderPath) {
+        vscode.window.showErrorMessage("Please select a folder first!");
+        return undefined;
+    }
+    return folderPath;
 };
-exports.showYesNoChoice = showYesNoChoice;
+exports.requireFolderPath = requireFolderPath;
 //# sourceMappingURL=validation.js.map

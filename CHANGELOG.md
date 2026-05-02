@@ -9,6 +9,8 @@ All notable changes to the "spring-code-generator" extension will be documented 
 - Added **Quick Pick palette** — press `Ctrl+Alt+G` / `Cmd+Alt+G` (or run `Spring Code Generator: Generate...` from the command palette) to open a searchable list of every generator, grouped by category.
 - Added **Sidebar panel** — a new "Spring Generator" view in the activity bar lists every generator grouped by category. Click any entry to run it.
 - Added interactive folder selection when generators are invoked outside the right-click menu.
+- Added a **schema-driven form framework** for collecting structured input. Forms are centered in the editor pane, themed with VS Code colors, and support text, textarea, dropdown, multi-select, checkbox, and repeatable list fields, plus conditional visibility (`showWhen`) and pattern validation.
+- Migrated all multi-input generators to the new form UI: Database Migration, Custom Query Repository (with nested parameter lists), Versioned API Controller, Event-Driven Component (Kafka/RabbitMQ), Microservice Component, Caching Configuration, Scheduled Task, and API Documentation. Single-input generators (Controller, DTO, Entity, etc.) keep their existing class-name prompt.
 
 ## [3.0.3] - 2026-01-21
 

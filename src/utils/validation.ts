@@ -203,11 +203,16 @@ export const getConfigurationTypes = async (): Promise<Array<{ label: string }> 
 };
 
 /**
- * Gets yes/no choice from user
+ * Resolves a folder path from a Uri, showing an error if absent.
+ * Returns undefined if the user invoked the command without a folder context.
  */
-export const showYesNoChoice = async (question: string): Promise<boolean> => {
-  const result = await vscode.window.showQuickPick(["Yes", "No"], {
-    placeHolder: question,
-  });
-  return result === "Yes";
+export const requireFolderPath = (
+  uri: vscode.Uri | undefined
+): string | undefined => {
+  const folderPath = uri?.fsPath;
+  if (!folderPath) {
+    vscode.window.showErrorMessage("Please select a folder first!");
+    return undefined;
+  }
+  return folderPath;
 };
